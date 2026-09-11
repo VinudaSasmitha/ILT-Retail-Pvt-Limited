@@ -1,0 +1,63 @@
+:root {
+            /* Light Mode Colors */
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --hover-color: #0066cc;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        /* Dark Mode (Navy Blue Theme) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0a192f; /* Dark Navy Blue */
+                --text-color: #f0f4f8;
+                --hover-color: #38bdf8;
+                --shadow-color: rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .logo {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover; /* Image එක ඇදෙන්නේ නැතුව හරියටම Circle එකට Cut වේ */
+            border: 2px solid var(--hover-color); /* Logo එක කැපී පෙනීමට කුඩා Border එකක් */
+            display: block;
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .main-nav a:hover {
+            color: var(--hover-color);
+        }
