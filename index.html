@@ -4,8 +4,368 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ILT Retail (Pvt) Limited</title>
+    
+    <!-- Modern Font - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables based on Navy Blue, Red, Yellow Palette */
+        :root {
+            /* Light Mode Colors */
+            --bg-color: #f8fafc;
+            --header-bg: rgba(255, 255, 255, 0.85);
+            --text-color: #0f172a;
+            --nav-link: #1e293b;
+            --nav-hover: #e31d2b; /* Red Accent */
+            --border-color: rgba(226, 232, 240, 0.8);
+            --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --toggle-bg: #f1f5f9;
+            --toggle-border: #cbd5e1;
+            --accent-primary: #e31d2b; /* Red */
+            --accent-secondary: #ffd700; /* Gold/Yellow */
+            --card-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Colors */
+            --bg-color: #002147; /* Navy Blue background */
+            --header-bg: rgba(0, 33, 71, 0.85);
+            --text-color: #f8fafc;
+            --nav-link: #e2e8f0;
+            --nav-hover: #ffd700; /* Gold Accent */
+            --border-color: rgba(51, 65, 85, 0.8);
+            --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+            --toggle-bg: #001936;
+            --toggle-border: #334155;
+            --accent-primary: #e31d2b; /* Red */
+            --accent-secondary: #ffd700; /* Gold/Yellow */
+            --card-bg: #001c3d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Header */
+        .logo-container {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        /* Circular Gold Frame for Logo */
+        .logo-frame {
+            height: 65px;
+            width: 65px;
+            border: 3px solid var(--accent-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .logo {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .center-section {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--nav-link);
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            padding: 6px 0;
+        }
+
+        /* Modern Hover animation */
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--nav-hover);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .main-nav a:hover {
+            color: var(--nav-hover);
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Right Section for Toggle */
+        .right-section {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Refined Dark / Light Toggle Button */
+        .theme-toggle {
+            background-color: var(--toggle-bg);
+            color: var(--text-color);
+            border: 1px solid var(--accent-secondary);
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.15);
+        }
+
+        /* Icon styling */
+        .theme-toggle span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 1rem;
+            background: radial-gradient(circle at center, rgba(227, 29, 43, 0.05), transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: var(--nav-link);
+        }
+
+        .hero h1 span {
+            color: var(--accent-primary); /* Red welcome */
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--nav-link);
+            max-width: 700px;
+            opacity: 0.9;
+        }
+
+        .hero .accent-gold {
+            color: var(--accent-secondary);
+            font-weight: 600;
+        }
+
+        /* Product Grid (Sample) */
+        .product-grid {
+            padding: 2rem 5% 5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Decorative color accent on hover */
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--accent-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-img {
+            height: 180px;
+            width: 100%;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            color: var(--accent-secondary);
+            font-weight: 700;
+        }
+    </style>
 </head>
 <body>
-    
+
+    <header class="logo-container">
+        <a href="/" class="logo-link">
+            <!-- Circular Gold Frame for Logo -->
+            <div class="logo-frame">
+                <img src="logo.png" alt="ILT Logo" class="logo">
+            </div>
+        </a>
+        
+        <div class="center-section">
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="right-section">
+            <!-- Modern Refined Toggle Button -->
+            <button class="theme-toggle" id="themeToggle">
+                <span id="themeIcon">🌙</span>
+                <span id="themeText">Dark</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sample Page Content -->
+    <main>
+        <section class="hero" id="home">
+            <h1>WELCOME TO <span>ILT RETAIL</span></h1>
+            <p>Explore our <span class="accent-gold">curated collection of premium products</span> and services with modern user experience.</p>
+        </section>
+
+        <section class="product-grid">
+            <!-- Sample Product Cards -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200?text=Premium+Item+1" alt="Product 1" class="product-img">
+                <h3 class="product-title">Luxury Watch</h3>
+                <p class="product-price">LKR 45,000</p>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200?text=Premium+Item+2" alt="Product 2" class="product-img">
+                <h3 class="product-title">Designer Handbag</h3>
+                <p class="product-price">LKR 60,000</p>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200?text=Premium+Item+3" alt="Product 3" class="product-img">
+                <h3 class="product-title">Elite Sunglasses</h3>
+                <p class="product-price">LKR 18,000</p>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200?text=Premium+Item+4" alt="Product 4" class="product-img">
+                <h3 class="product-title">Smart Gadget</h3>
+                <p class="product-price">LKR 35,000</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript for Theme Switching -->
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+
+        // Check user's saved theme from localStorage
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Light';
+        }
+
+        // Toggle Event
+        themeToggleBtn.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            }
+        });
+    </script>
 </body>
 </html>
