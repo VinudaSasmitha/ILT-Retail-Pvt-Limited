@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILT Retail - Sports Products</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #111827;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: #0f172a;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #cbd5e1;
+        }
+
+        /* Sport Buttons */
+        .sports-section {
+            padding: 60px 20px;
+            background: white;
+            text-align: center;
+        }
+
+        .sports-section h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .sport-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .sport-btn {
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            background: #e5e7eb;
+            color: #111827;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sport-btn:hover {
+            background: #111827;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .sport-btn.active {
+            background: #ef1d2f;
+            color: white;
+        }
+
+        /* Products */
+        #section {
+            min-height: 600px;
+            padding: 70px 20px;
+            scroll-margin-top: 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: #64748b;
+        }
+
+        .product-grid {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-image {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e2e8f0;
+            font-size: 60px;
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-content h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .sport-name {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ef1d2f;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .product-content p {
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .no-products {
+            display: none;
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 60vh;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .sports-section h2,
+            .section-header h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero">
+        <h1>Welcome to ILT Retail</h1>
+        <p>Your one-stop shop for premium apparel and sports gear.</p>
+    </section>
+
+    <section class="sports-section">
+        <h2>Shop By Sport</h2>
+
+        <div class="sport-buttons">
+            <button class="sport-btn active" data-sport="all">All Sports</button>
+            <button class="sport-btn" data-sport="rugby">Rugby</button>
+            <button class="sport-btn" data-sport="cricket">Cricket</button>
+            <button class="sport-btn" data-sport="baseball">Baseball</button>
+            <button class="sport-btn" data-sport="badminton">Badminton</button>
+            <button class="sport-btn" data-sport="volleyball">Volleyball</button>
+        </div>
+    </section>
+
+    <section id="section">
+        <div class="section-header">
+            <h2 id="section-title">All Sports</h2>
+            <p id="section-description">Explore our latest sportswear collection.</p>
+        </div>
+
+        <div class="product-grid">
+
+            <div class="product" data-sport="rugby">
+                <div class="product-image">🏉</div>
+                <div class="product-content">
+                    <span class="sport-name">Rugby</span>
+                    <h3>Professional Rugby Jersey</h3>
+                    <p>Premium custom rugby jersey.</p>
+                    <div class="price">LKR 7,500</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="rugby">
+                <div class="product-image">🏉</div>
+                <div class="product-content">
+                    <span class="sport-name">Rugby</span>
+                    <h3>Rugby Training Shorts</h3>
+                    <p>Lightweight training shorts.</p>
+                    <div class="price">LKR 4,500</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="cricket">
+                <div class="product-image">🏏</div>
+                <div class="product-content">
+                    <span class="sport-name">Cricket</span>
+                    <h3>Professional Cricket Jersey</h3>
+                    <p>High-performance cricket jersey.</p>
+                    <div class="price">LKR 6,500</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="cricket">
+                <div class="product-image">🏏</div>
+                <div class="product-content">
+                    <span class="sport-name">Cricket</span>
+                    <h3>Cricket Training Kit</h3>
+                    <p>Complete cricket training wear.</p>
+                    <div class="price">LKR 9,500</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="baseball">
+                <div class="product-image">⚾</div>
+                <div class="product-content">
+                    <span class="sport-name">Baseball</span>
+                    <h3>Baseball Jersey</h3>
+                    <p>Custom baseball team jersey.</p>
+                    <div class="price">LKR 6,900</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="baseball">
+                <div class="product-image">⚾</div>
+                <div class="product-content">
+                    <span class="sport-name">Baseball</span>
+                    <h3>Baseball Cap</h3>
+                    <p>Premium team baseball cap.</p>
+                    <div class="price">LKR 2,500</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="badminton">
+                <div class="product-image">🏸</div>
+                <div class="product-content">
+                    <span class="sport-name">Badminton</span>
+                    <h3>Badminton Performance Shirt</h3>
+                    <p>Lightweight performance sportswear.</p>
+                    <div class="price">LKR 5,500</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="badminton">
+                <div class="product-image">🏸</div>
+                <div class="product-content">
+                    <span class="sport-name">Badminton</span>
+                    <h3>Badminton Shorts</h3>
+                    <p>Flexible and breathable shorts.</p>
+                    <div class="price">LKR 3,900</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="volleyball">
+                <div class="product-image">🏐</div>
+                <div class="product-content">
+                    <span class="sport-name">Volleyball</span>
+                    <h3>Volleyball Jersey</h3>
+                    <p>Custom volleyball team jersey.</p>
+                    <div class="price">LKR 6,800</div>
+                </div>
+            </div>
+
+            <div class="product" data-sport="volleyball">
+                <div class="product-image">🏐</div>
+                <div class="product-content">
+                    <span class="sport-name">Volleyball</span>
+                    <h3>Volleyball Shorts</h3>
+                    <p>Comfortable match-day shorts.</p>
+                    <div class="price">LKR 4,200</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="no-products" id="no-products">
+            <h3>No products found.</h3>
+        </div>
+    </section>
+
+    <script>
+        const buttons = document.querySelectorAll(".sport-btn");
+        const products = document.querySelectorAll(".product");
+        const section = document.getElementById("section");
+        const title = document.getElementById("section-title");
+        const description = document.getElementById("section-description");
+        const noProducts = document.getElementById("no-products");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", () => {
+                const sport = button.dataset.sport;
+
+                buttons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+
+                title.textContent = sport === "all"
+                    ? "All Sports"
+                    : sport.charAt(0).toUpperCase() + sport.slice(1);
+
+                description.textContent = sport === "all"
+                    ? "Explore our latest sportswear collection."
+                    : `Explore our ${sport} collection.`;
+
+                let count = 0;
+
+                products.forEach(product => {
+                    const show = sport === "all" || product.dataset.sport === sport;
+
+                    product.style.display = show ? "block" : "none";
+
+                    if (show) count++;
+                });
+
+                noProducts.style.display = count === 0 ? "block" : "none";
+
+                section.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
