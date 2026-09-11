@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILT Retail - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="admin-container">
+        <!-- Dashboard Header -->
+        <header class="admin-header">
+            <h2><i class="fa-solid fa-sliders"></i> ILT Retail Admin Dashboard</h2>
+            <a href="index.html" class="view-site-btn" target="_blank"><i class="fa-solid fa-globe"></i> View Live Website</a>
+        </header>
+
+        <!-- Form Cards Grid -->
+        <div class="admin-grid">
+            <!-- Add Sport Section -->
+            <div class="card">
+                <h3><i class="fa-solid fa-trophy"></i> Add Sport Category</h3>
+                <form id="sportForm">
+                    <div class="form-group">
+                        <label>Sport Name (e.g. RUGBY)</label>
+                        <input type="text" id="sportTitle" placeholder="RUGBY" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Heading</label>
+                        <input type="text" id="sportSub" placeholder="PERFORMANCE GEAR" required>
+                    </div>
+                    <div class="form-group">
+                        <label>FontAwesome Icon Class</label>
+                        <input type="text" id="sportIcon" placeholder="fa-football" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL / Path</label>
+                        <input type="text" id="sportImg" placeholder="images/rugby.jpg" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Sport Category</button>
+                </form>
+            </div>
+
+            <!-- Add Product Section -->
+            <div class="card">
+                <h3><i class="fa-solid fa-shirt"></i> Add New Item to Portfolio</h3>
+                <form id="productForm">
+                    <div class="form-group">
+                        <label>Product Title</label>
+                        <input type="text" id="prodTitle" placeholder="Custom Rugby Jersey" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Associated Sport Category</label>
+                        <select id="prodSportSelect" required>
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>FontAwesome Icon Class</label>
+                        <input type="text" id="prodIcon" placeholder="fa-shirt" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Image Path / URL</label>
+                        <input type="text" id="prodImg" placeholder="images/jersey.jpg" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add To Portfolio</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Management Tables -->
+        <div class="card">
+            <h3><i class="fa-solid fa-list-check"></i> Manage Sports Categories</h3>
+            <div class="table-responsive">
+                <table id="sportsTable">
+                    <thead>
+                        <tr>
+                            <th>Sport Title</th>
+                            <th>Sub Heading</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic Sports Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><i class="fa-solid fa-boxes-stacked"></i> View Our Product Portfolio</h3>
+            <div class="table-responsive">
+                <table id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Sport Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic Product Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const API_URL = 'http://localhost:3000/api';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadSportsAdmin();
+        loadProductsAdmin();
+    });
+
+    // 1. Load Sports to Table and Dropdown
+    async function loadSportsAdmin() {
+        try {
+            const res = await fetch(`${API_URL}/sports`);
+            const sports = await res.json();
+
+            // Populate Select Dropdown in Product Form
+            const select = document.getElementById('prodSportSelect');
+            select.innerHTML = '<option value="">Select Category</option>' + 
+                sports.map(s => `<option value="${s.title}">${s.title}</option>`).join('');
+
+            // Populate Sports Table
+            const tbody = document.querySelector('#sportsTable tbody');
+            if (sports.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94a3b8;">No sports categories added yet.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = sports.map(s => `
+                <tr>
+                    <td><strong>${s.title}</strong></td>
+                    <td>${s.sub || '-'}</td>
+                    <td><i class="fa-solid ${s.icon}"></i> <span style="font-size:11px; color:#94a3b8;">(${s.icon})</span></td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteSport('${s.id || s._id}')">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error("Error loading sports:", err);
+        }
+    }
+
+    // 2. Load Products to Portfolio Table
+    async function loadProductsAdmin() {
+        try {
+            const res = await fetch(`${API_URL}/products`);
+            const products = await res.json();
+
+            const tbody = document.querySelector('#productsTable tbody');
+            if (products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94a3b8;">No items in portfolio yet. Add your first product above.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td><strong>${p.title}</strong></td>
+                    <td><span class="badge">${p.sport}</span></td>
+                    <td><i class="fa-solid ${p.icon}"></i></td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteProduct('${p.id || p._id}')">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error("Error loading products:", err);
+        }
+    }
+
+    // 3. Add New Sport Category
+    document.getElementById('sportForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const newSport = {
+            title: document.getElementById('sportTitle').value.toUpperCase(),
+            sub: document.getElementById('sportSub').value.toUpperCase(),
+            icon: document.getElementById('sportIcon').value,
+            image: document.getElementById('sportImg').value
+        };
+
+        try {
+            const res = await fetch(`${API_URL}/sports`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newSport)
+            });
+
+            if (res.ok) {
+                alert('Sport Category Added Successfully!');
+                document.getElementById('sportForm').reset();
+                loadSportsAdmin(); // Table එක Refresh කිරීම
+            } else {
+                alert('Failed to add sport category.');
+            }
+        } catch (err) {
+            console.error("Error adding sport:", err);
+            alert('Server error! Make sure backend is running on localhost:3000');
+        }
+    });
+
+    // 4. Add New Product to Portfolio
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const newProduct = {
+            title: document.getElementById('prodTitle').value,
+            sport: document.getElementById('prodSportSelect').value,
+            icon: document.getElementById('prodIcon').value,
+            image: document.getElementById('prodImg').value
+        };
+
+        try {
+            const res = await fetch(`${API_URL}/products`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newProduct)
+            });
+
+            if (res.ok) {
+                alert('Item Added to Product Portfolio!');
+                document.getElementById('productForm').reset();
+                loadProductsAdmin(); // Table එක Refresh කිරීම
+            } else {
+                alert('Failed to add product.');
+            }
+        } catch (err) {
+            console.error("Error adding product:", err);
+            alert('Server error! Make sure backend is running on localhost:3000');
+        }
+    });
+
+    // 5. Delete Sport
+    async function deleteSport(id) {
+        if (!confirm('Are you sure you want to delete this category?')) return;
+        try {
+            const res = await fetch(`${API_URL}/sports/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                loadSportsAdmin();
+                loadProductsAdmin();
+            }
+        } catch (err) {
+            console.error("Error deleting sport:", err);
+        }
+    }
+
+    // 6. Delete Product
+    async function deleteProduct(id) {
+        if (!confirm('Are you sure you want to remove this item from portfolio?')) return;
+        try {
+            const res = await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                loadProductsAdmin();
+            }
+        } catch (err) {
+            console.error("Error deleting product:", err);
+        }
+    }
+</script>
+
+</body>
+</html>
