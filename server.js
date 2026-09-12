@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const app = express();
 
-// 1. Middlewares
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +19,7 @@ if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// 2. MySQL Connection
+// MySQL Connection
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -35,8 +35,10 @@ db.connect((err) => {
     }
     console.log('✅ MySQL Database Connected Successfully!');
 
-    // Table Creation Queries
-    const createTables = `
+    // Fix FK issues & recreate DB Schema safely
+    const setupDatabaseQueries = `
+        SET FOREIGN_KEY_CHECKS = 0;
+
         CREATE TABLE IF NOT EXISTS sports_categories (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
@@ -56,21 +58,25 @@ db.connect((err) => {
             name VARCHAR(255) NOT NULL,
             sport_id INT NULL,
             category_id INT NOT NULL,
+            type VARCHAR(100) NULL,
+            price DECIMAL(10, 2) DEFAULT 0.00,
             image_url VARCHAR(255),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
+
+        SET FOREIGN_KEY_CHECKS = 1;
     `;
 
-    db.query(createTables, (tableErr) => {
+    db.query(setupDatabaseQueries, (tableErr) => {
         if (tableErr) {
-            console.error('❌ Table Creation Error:', tableErr);
+            console.error('❌ Table Setup Error:', tableErr);
         } else {
-            console.log('✅ All Database Tables Ready!');
+            console.log('✅ Database Schema Ready!');
         }
     });
 });
 
-// 3. Multer Setup
+// Multer Setup
 const storage = multer.diskStorage({
     destination: './public/uploads/',
     filename: (req, file, cb) => {
@@ -78,8 +84,6 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
-
-// 4. API Routes
 
 // --- SPORTS API ---
 app.get('/api/sports', (req, res) => {
@@ -91,10 +95,7 @@ app.get('/api/sports', (req, res) => {
         ORDER BY s.id DESC
     `;
     db.query(sql, (err, results) => {
-        if (err) {
-            console.error('❌ SQL Error (GET /api/sports):', err.message);
-            return res.status(500).json({ success: false, error: err.message });
-        }
+        if (err) return res.status(500).json({ success: false, error: err.message });
         res.status(200).json({ success: true, data: results });
     });
 });
@@ -108,10 +109,7 @@ app.post('/api/sports', upload.any(), (req, res) => {
 
     const sql = 'INSERT INTO sports_categories (name, description, icon) VALUES (?, ?, ?)';
     db.query(sql, [name || '', tagline || '', iconValue], (err, result) => {
-        if (err) {
-            console.error('❌ SQL Error (POST /api/sports):', err.message);
-            return res.status(500).json({ success: false, error: err.message });
-        }
+        if (err) return res.status(500).json({ success: false, error: err.message });
         res.status(200).json({ success: true, message: 'Sport added successfully!' });
     });
 });
@@ -119,10 +117,7 @@ app.post('/api/sports', upload.any(), (req, res) => {
 // --- CATEGORIES API ---
 app.get('/api/categories', (req, res) => {
     db.query('SELECT * FROM categories ORDER BY id DESC', (err, results) => {
-        if (err) {
-            console.error('❌ SQL Error (GET /api/categories):', err.message);
-            return res.status(500).json({ success: false, error: err.message });
-        }
+        if (err) return res.status(500).json({ success: false, error: err.message });
         res.status(200).json(results);
     });
 });
@@ -141,49 +136,82 @@ app.post('/api/categories', upload.any(), (req, res) => {
 
     const sql = 'INSERT INTO categories (name, image_url) VALUES (?, ?)';
     db.query(sql, [name, imageUrl], (err, result) => {
-        if (err) {
-            console.error('❌ SQL Error (POST /api/categories):', err.message);
-            return res.status(500).json({ success: false, error: err.message });
-        }
+        if (err) return res.status(500).json({ success: false, error: err.message });
         res.status(200).json({ success: true, message: 'Category added successfully!' });
     });
 });
 
 // --- PRODUCTS API ---
 app.get('/api/products', (req, res) => {
-    const sql = `
-        SELECT p.*, p.name AS product_title, s.name AS sport_name 
+    const { sport, category, type, search } = req.query;
+
+    let sql = `
+        SELECT p.*, 
+               p.name AS product_title, 
+               s.name AS sport_name, 
+               c.name AS category_name 
         FROM products p 
         LEFT JOIN sports_categories s ON p.sport_id = s.id 
-        ORDER BY p.id DESC
+        LEFT JOIN categories c ON p.category_id = c.id
+        WHERE 1=1
     `;
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('❌ SQL Error (GET /api/products):', err.message);
-            return res.status(500).json({ success: false, error: err.message });
+    const params = [];
+
+    if (sport && sport !== 'all') {
+        if (!isNaN(sport)) {
+            sql += ` AND p.sport_id = ?`;
+            params.push(parseInt(sport));
+        } else {
+            sql += ` AND s.name = ?`;
+            params.push(sport);
         }
+    }
+
+    if (category && category !== 'all') {
+        if (!isNaN(category)) {
+            sql += ` AND p.category_id = ?`;
+            params.push(parseInt(category));
+        } else {
+            sql += ` AND c.name = ?`;
+            params.push(category);
+        }
+    }
+
+    if (type && type !== 'all') {
+        sql += ` AND p.type = ?`;
+        params.push(type);
+    }
+
+    if (search && search.trim() !== '') {
+        sql += ` AND p.name LIKE ?`;
+        params.push(`%${search.trim()}%`);
+    }
+
+    sql += ` ORDER BY p.id DESC`;
+
+    db.query(sql, params, (err, results) => {
+        if (err) return res.status(500).json({ success: false, error: err.message });
         res.status(200).json(results);
     });
 });
 
 app.post('/api/products', upload.any(), (req, res) => {
-    const { name, sport_id, category_id } = req.body;
+    const { name, sport_id, category_id, type, price } = req.body;
     let imageUrl = '';
 
     if (req.files && req.files.length > 0) {
         imageUrl = `/uploads/${req.files[0].filename}`;
     }
 
-    // Input Sanitization (Empty Strings -> NULL/Integer conversion)
-    const validSportId = (sport_id && sport_id !== '' && sport_id !== 'null') ? parseInt(sport_id) : null;
+    const validSportId = (sport_id && sport_id !== '' && sport_id !== 'null' && sport_id !== 'undefined') ? parseInt(sport_id) : null;
     const validCategoryId = (category_id && category_id !== '' && category_id !== 'null') ? parseInt(category_id) : null;
 
     if (!name || !validCategoryId) {
         return res.status(400).json({ success: false, error: 'Product name and Category ID are required.' });
     }
 
-    const sql = 'INSERT INTO products (name, sport_id, category_id, image_url) VALUES (?, ?, ?, ?)';
-    db.query(sql, [name, validSportId, validCategoryId, imageUrl], (err, result) => {
+    const sql = 'INSERT INTO products (name, sport_id, category_id, type, price, image_url) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(sql, [name, validSportId, validCategoryId, type || null, price || 0.00, imageUrl], (err, result) => {
         if (err) {
             console.error('❌ SQL Error (POST /api/products):', err.message);
             return res.status(500).json({ success: false, error: err.message });
@@ -192,19 +220,14 @@ app.post('/api/products', upload.any(), (req, res) => {
     });
 });
 
-// DELETE Product Endpoint
 app.delete('/api/products/:id', (req, res) => {
     const { id } = req.params;
     db.query('DELETE FROM products WHERE id = ?', [parseInt(id)], (err, result) => {
-        if (err) {
-            console.error('❌ SQL Error (DELETE /api/products):', err.message);
-            return res.status(500).json({ success: false, error: err.message });
-        }
+        if (err) return res.status(500).json({ success: false, error: err.message });
         res.status(200).json({ success: true, message: 'Product deleted successfully!' });
     });
 });
 
-// Start Server
 app.listen(3000, () => {
     console.log('🚀 Server running on http://localhost:3000');
 });

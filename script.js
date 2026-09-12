@@ -1,5 +1,13 @@
 const API_URL = 'http://localhost:3000/api';
 const SERVER_URL = 'http://localhost:3000';
+const WHATSAPP_NUMBER = '94777588738';
+
+// Filter State Logic
+let currentFilters = {
+    sport: 'all',
+    category: 'all',
+    type: 'all'
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
@@ -29,7 +37,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 2. PAGE LOAD ENGINES
+    // 2. FILTER DROPDOWNS & RESET LISTENERS
+    // ==========================================
+    const sportFilter = document.getElementById('sportFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const typeFilter = document.getElementById('typeFilter');
+
+    if (sportFilter) {
+        sportFilter.addEventListener('change', (e) => {
+            currentFilters.sport = e.target.value;
+            applyFilterChanges();
+        });
+    }
+
+    if (categoryFilter) {
+        categoryFilter.addEventListener('change', (e) => {
+            currentFilters.category = e.target.value;
+            applyFilterChanges();
+        });
+    }
+
+    if (typeFilter) {
+        typeFilter.addEventListener('change', (e) => {
+            currentFilters.type = e.target.value;
+            applyFilterChanges();
+        });
+    }
+
+    // Reset Buttons
+    document.getElementById('resetBtn')?.addEventListener('click', resetAllFilters);
+    document.getElementById('clearTagBtn')?.addEventListener('click', resetAllFilters);
+    document.getElementById('showAllBtn')?.addEventListener('click', resetAllFilters);
+
+    // ==========================================
+    // 3. PAGE LOAD ENGINES
     // ==========================================
     if (document.getElementById('sportsGrid')) {
         fetchSportsCategories();
@@ -42,19 +83,111 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Image URL එක නිවැරදිව සකසන Helper Function එක
+// Helper: Image URL Formatter
 function formatImageUrl(path) {
     if (!path) return 'https://via.placeholder.com/300x200?text=No+Image';
     if (path.startsWith('http')) return path;
     return `${SERVER_URL}${path.startsWith('/') ? '' : '/'}${path}`;
 }
 
+// Helper: Smooth Scroll to Catalog Section
+function scrollToCatalog() {
+    const catalogSection = document.getElementById('featured-products') || document.getElementById('catalog');
+    if (catalogSection) {
+        catalogSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Helper: WhatsApp URL Generator
+function getWaLink(productTitle) {
+    const text = `Inquiry: ${productTitle}`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+
 // ==========================================
-// 3. FETCH SPORTS CATEGORIES
+// 4. ON-CARD CLICK LOGIC (SPORTS & CATEGORIES)
+// ==========================================
+window.selectSport = function(sportId) {
+    currentFilters.sport = sportId;
+    currentFilters.category = 'all';
+    currentFilters.type = 'all';
+
+    syncDropdownUI();
+    applyFilterChanges();
+    scrollToCatalog();
+};
+
+window.selectCategory = function(categoryId) {
+    currentFilters.category = categoryId;
+    currentFilters.sport = 'all';
+    currentFilters.type = 'all';
+
+    syncDropdownUI();
+    applyFilterChanges();
+    scrollToCatalog();
+};
+
+// Sync State with UI Dropdowns
+function syncDropdownUI() {
+    const sportFilter = document.getElementById('sportFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const typeFilter = document.getElementById('typeFilter');
+
+    if (sportFilter) sportFilter.value = currentFilters.sport;
+    if (categoryFilter) categoryFilter.value = currentFilters.category;
+    if (typeFilter) typeFilter.value = currentFilters.type;
+}
+
+// Active Yellow Tag Display
+function updateActiveTag() {
+    const activeRow = document.getElementById('activeFilterRow');
+    const activeTag = document.getElementById('activeFilterTag');
+
+    if (!activeRow || !activeTag) return;
+
+    const sportFilter = document.getElementById('sportFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
+
+    let tags = [];
+    if (currentFilters.sport !== 'all' && sportFilter) {
+        const sportText = sportFilter.options[sportFilter.selectedIndex]?.text || currentFilters.sport;
+        tags.push(`Sport: ${sportText}`);
+    }
+    if (currentFilters.category !== 'all' && categoryFilter) {
+        const catText = categoryFilter.options[categoryFilter.selectedIndex]?.text || currentFilters.category;
+        tags.push(`Category: ${catText}`);
+    }
+    if (currentFilters.type !== 'all') {
+        tags.push(`Type: ${currentFilters.type}`);
+    }
+
+    if (tags.length > 0) {
+        activeTag.innerText = tags.join(' | ');
+        activeRow.classList.remove('hidden');
+    } else {
+        activeRow.classList.add('hidden');
+    }
+}
+
+// Apply Filters and Re-fetch
+function applyFilterChanges() {
+    updateActiveTag();
+    fetchFeaturedProducts();
+}
+
+// Reset All Filters
+function resetAllFilters() {
+    currentFilters = { sport: 'all', category: 'all', type: 'all' };
+    syncDropdownUI();
+    applyFilterChanges();
+}
+
+// ==========================================
+// 5. FETCH SPORTS CATEGORIES
 // ==========================================
 async function fetchSportsCategories() {
     const sportsGrid = document.getElementById('sportsGrid');
-    if (!sportsGrid) return;
+    const sportSelect = document.getElementById('sportFilter');
 
     try {
         const response = await fetch(`${API_URL}/sports`);
@@ -63,84 +196,113 @@ async function fetchSportsCategories() {
         const result = await response.json();
         const sportsList = Array.isArray(result) ? result : (result.data || []);
 
+        if (sportSelect) {
+            sportSelect.innerHTML = `<option value="all">All Sports</option>`;
+        }
+
         if (!sportsList || sportsList.length === 0) {
-            sportsGrid.innerHTML = `
-                <p style="color: var(--text-dim); text-align: center; grid-column: 1/-1;">
-                    No sports categories added yet.
-                </p>`;
+            if (sportsGrid) {
+                sportsGrid.innerHTML = `
+                    <p style="color: var(--text-dim); text-align: center; grid-column: 1/-1;">
+                        No sports categories added yet.
+                    </p>`;
+            }
             return;
         }
 
-        sportsGrid.innerHTML = '';
+        if (sportsGrid) sportsGrid.innerHTML = '';
 
         sportsList.forEach(sport => {
-            const isFontAwesome = sport.icon && sport.icon.startsWith('fa-');
-            const imgSrc = formatImageUrl(sport.icon);
+            // Dropdown Populating
+            if (sportSelect) {
+                sportSelect.insertAdjacentHTML('beforeend', `<option value="${sport.id}">${sport.name}</option>`);
+            }
 
-            const bannerHTML = isFontAwesome
-                ? `<div class="sport-card-banner">
-                    <div class="sport-icon-box"><i class="${sport.icon}"></i></div>
-                   </div>`
-                : `<div class="sport-card-banner">
-                    <img src="${imgSrc}" alt="${sport.name}">
-                   </div>`;
+            // Cards Populating
+            if (sportsGrid) {
+                const isFontAwesome = sport.icon && sport.icon.startsWith('fa-');
+                const imgSrc = formatImageUrl(sport.icon);
 
-            const cardHTML = `
-                <div class="sport-card" onclick="window.location.href='category.html?sport_id=${sport.id}'">
-                    ${bannerHTML}
-                    <span class="item-count">${sport.product_count || 0} Products</span>
-                    
-                    <div class="sport-info">
-                        <h3>${sport.name}</h3>
-                        <p>${sport.description || 'Custom sportswear and gear.'}</p>
-                    </div>
+                const bannerHTML = isFontAwesome
+                    ? `<div class="sport-card-banner">
+                        <div class="sport-icon-box"><i class="${sport.icon}"></i></div>
+                       </div>`
+                    : `<div class="sport-card-banner">
+                        <img src="${imgSrc}" alt="${sport.name}">
+                       </div>`;
 
-                    <div class="sport-footer">
-                        <span>Explore Collection</span>
-                        <div class="sport-link-btn">
-                            <i class="fa-solid fa-arrow-right"></i>
+                const cardHTML = `
+                    <div class="sport-card" onclick="selectSport('${sport.id}')">
+                        ${bannerHTML}
+                        <span class="item-count">${sport.product_count || 0} Products</span>
+                        
+                        <div class="sport-info">
+                            <h3>${sport.name}</h3>
+                            <p>${sport.description || 'Custom sportswear and gear.'}</p>
+                        </div>
+
+                        <div class="sport-footer">
+                            <span>Explore Collection</span>
+                            <div class="sport-link-btn">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
 
-            sportsGrid.insertAdjacentHTML('beforeend', cardHTML);
+                sportsGrid.insertAdjacentHTML('beforeend', cardHTML);
+            }
         });
 
     } catch (error) {
         console.error('Error loading sports:', error);
-        sportsGrid.innerHTML = `
-            <p style="color: #dc2626; text-align: center; grid-column: 1/-1;">
-                Failed to load sports categories. Please check backend server.
-            </p>`;
+        if (sportsGrid) {
+            sportsGrid.innerHTML = `
+                <p style="color: #dc2626; text-align: center; grid-column: 1/-1;">
+                    Failed to load sports categories. Please check backend server.
+                </p>`;
+        }
     }
 }
 
 // ==========================================
-// 4. FETCH ITEM CATEGORIES (Optional Grid)
+// 6. FETCH ITEM CATEGORIES
 // ==========================================
 async function fetchItemCategories() {
     const categoriesGrid = document.getElementById('categoriesGrid');
-    if (!categoriesGrid) return;
+    const categorySelect = document.getElementById('categoryFilter');
 
     try {
         const response = await fetch(`${API_URL}/categories`);
         const categories = await response.json();
 
+        if (categorySelect) {
+            categorySelect.innerHTML = `<option value="all">All Types</option>`;
+        }
+
         if (!categories || categories.length === 0) {
-            categoriesGrid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No categories available.</p>';
+            if (categoriesGrid) categoriesGrid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No categories available.</p>';
             return;
         }
 
-        categoriesGrid.innerHTML = '';
+        if (categoriesGrid) categoriesGrid.innerHTML = '';
+
         categories.forEach(cat => {
-            const imgSrc = formatImageUrl(cat.image_url);
-            categoriesGrid.innerHTML += `
-                <div class="category-card" onclick="window.location.href='category.html?category_id=${cat.id}'">
-                    <img src="${imgSrc}" alt="${cat.name}">
-                    <h4>${cat.name}</h4>
-                </div>
-            `;
+            // Dropdown Populating
+            if (categorySelect) {
+                categorySelect.insertAdjacentHTML('beforeend', `<option value="${cat.id}">${cat.name}</option>`);
+            }
+
+            // Grid Populating
+            if (categoriesGrid) {
+                const imgSrc = formatImageUrl(cat.image_url);
+                categoriesGrid.innerHTML += `
+                    <div class="category-card" onclick="selectCategory('${cat.id}')">
+                        <img src="${imgSrc}" alt="${cat.name}">
+                        <h4>${cat.name}</h4>
+                    </div>
+                `;
+            }
         });
     } catch (error) {
         console.error('Error loading categories:', error);
@@ -148,33 +310,64 @@ async function fetchItemCategories() {
 }
 
 // ==========================================
-// 5. FETCH FEATURED PRODUCTS (Optional Grid)
+// 7. FETCH & FILTER PRODUCTS
 // ==========================================
 async function fetchFeaturedProducts() {
     const productsGrid = document.getElementById('productsGrid');
+    const emptyState = document.getElementById('emptyState');
+    const countDisplay = document.getElementById('productCount');
+
     if (!productsGrid) return;
 
     try {
-        const response = await fetch(`${API_URL}/products`);
+        const params = new URLSearchParams();
+        if (currentFilters.sport !== 'all') params.append('sport', currentFilters.sport);
+        if (currentFilters.category !== 'all') params.append('category', currentFilters.category);
+        if (currentFilters.type !== 'all') params.append('type', currentFilters.type);
+
+        const response = await fetch(`${API_URL}/products?${params.toString()}`);
         const products = await response.json();
 
-        if (!products || products.length === 0) {
-            productsGrid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No products found.</p>';
+        const count = products ? products.length : 0;
+        if (countDisplay) {
+            countDisplay.innerHTML = `Showing <strong style="color:var(--text-main, #fff);">${count}</strong> Products`;
+        }
+
+        if (!products || count === 0) {
+            productsGrid.innerHTML = '';
+            emptyState?.classList.remove('hidden');
             return;
         }
 
+        emptyState?.classList.add('hidden');
         productsGrid.innerHTML = '';
+
         products.forEach(p => {
             const imgSrc = formatImageUrl(p.image_url);
+            const title = p.product_title || p.name;
+            const waUrl = getWaLink(title);
+
             productsGrid.innerHTML += `
-                <div class="product-card">
-                    <img src="${imgSrc}" alt="${p.name}">
-                    <span class="badge">${p.sport_name || 'General'}</span>
-                    <h3>${p.name}</h3>
-                </div>
-            `;
+    <div class="product-card">
+        <div class="product-img-wrapper">
+            <img src="${imgSrc}" alt="${title}">
+            <button class="wishlist-btn" title="Add to Wishlist">
+                <i class="fa-regular fa-heart"></i>
+            </button>
+        </div>
+        <div class="product-info">
+            <span class="product-category">${p.sport_name || 'CUSTOM GEAR'}</span>
+            <h3 class="product-title">${title}</h3>
+            <a href="${waUrl}" target="_blank" class="btn-inquire-red">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>INQUIRE NOW</span>
+            </a>
+        </div>
+    </div>
+`;
         });
     } catch (error) {
         console.error('Error loading products:', error);
+        productsGrid.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:#dc2626;">Failed to fetch products.</p>';
     }
 }

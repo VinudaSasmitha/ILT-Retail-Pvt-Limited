@@ -241,6 +241,209 @@
             </div>
         </div>
     </section>
+<!-- FILTER & PRODUCTS SECTION -->
+<section id="featured-products" class="filter-section-wrapper">
+
+    <!-- Filter Control Box -->
+    <div class="filter-box">
+        <div class="filter-controls-row">
+            <!-- Sport Select -->
+            <div class="filter-field">
+                <label for="sportFilter">SPORT</label>
+                <select id="sportFilter">
+                    <option value="all">All Sports</option>
+                </select>
+            </div>
+
+            <!-- Product Type / Category Select -->
+            <div class="filter-field">
+                <label for="categoryFilter">PRODUCT TYPE</label>
+                <select id="categoryFilter">
+                    <option value="all">All Product Types</option>
+                </select>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="filter-field btn-field">
+                <button id="resetBtn" class="btn-red-reset">
+                    <i class="fa-solid fa-rotate-right"></i> RESET FILTERS
+                </button>
+            </div>
+        </div>
+
+        <!-- Active Filter Tag Row -->
+        <div id="activeFilterRow" class="active-filter-row hidden">
+            <span id="activeFilterTag" class="filter-tag-text"></span>
+            <button id="clearTagBtn" class="btn-clear-link">Clear</button>
+        </div>
+    </div>
+
+    <!-- Showing Products Count Bar -->
+    <div class="product-count-bar">
+        <div class="count-text-group">
+            <span id="productCount" class="count-main">Showing 0 Products</span>
+            <span class="count-sub">Live Fabric Inventory</span>
+        </div>
+    </div>
+
+    <!-- Products Display Card Container -->
+    <div class="products-display-card">
+        <!-- Products Grid -->
+        <div id="productsGrid" class="products-grid"></div>
+
+        <!-- Empty State (No Match Found) -->
+        <div id="emptyState" class="empty-state-box hidden">
+            <div class="empty-icon"><i class="fa-solid fa-box-open"></i></div>
+            <h3>NO PRODUCTS MATCH YOUR FILTER</h3>
+            <p>Try resetting filters or choosing a different sport.</p>
+            <button id="showAllBtn" class="btn-red-pill">SHOW ALL GEAR</button>
+        </div>
+    </div>
+
+</section>
+<!-- ABOUT & PROCESS SECTION -->
+<section id="about" class="about-section">
+    <div class="about-header">
+        <span class="sub-tag">Fast Track Ordering</span>
+        <h2 class="about-title">From Concept to Match Day</h2>
+        <p class="about-desc">How we deliver championship-quality gear across Sri Lanka in 5 seamless steps.</p>
+    </div>
+
+    <!-- 5 Process Steps Container -->
+    <div class="steps-container">
+        <div class="process-step-card">
+            <span class="step-badge">STEP 01</span>
+            <h4 class="step-card-title">Concept & Design</h4>
+            <p class="step-card-desc">Share your idea, team colors, and logos with our expert design team.</p>
+        </div>
+
+        <div class="process-step-card">
+            <span class="step-badge">STEP 02</span>
+            <h4 class="step-card-title">3D Proofing</h4>
+            <p class="step-card-desc">Approve realistic 3D digital mockups before sending to production.</p>
+        </div>
+
+        <div class="process-step-card">
+            <span class="step-badge">STEP 03</span>
+            <h4 class="step-card-title">Sublimation</h4>
+            <p class="step-card-desc">High-precision printing & anti-fade colorfast fabric sublimation.</p>
+        </div>
+
+        <div class="process-step-card">
+            <span class="step-badge">STEP 04</span>
+            <h4 class="step-card-title">Tailoring</h4>
+            <p class="step-card-desc">Precision laser cutting and heavy-duty athletic performance stitching.</p>
+        </div>
+
+        <div class="process-step-card">
+            <span class="step-badge">STEP 05</span>
+            <h4 class="step-card-title">Match Day Delivery</h4>
+            <p class="step-card-desc">Fast islandwide dispatch straight to your school, club, or doorstep.</p>
+        </div>
+    </div>
+
+    <!-- Highlights Bar -->
+    <div class="about-highlights-bar">
+        <div class="highlight-item">
+            <div class="highlight-icon-box icon-yellow">
+                <i class="fa-solid fa-truck-fast"></i>
+            </div>
+            <div class="highlight-text">
+                <h5>Islandwide Delivery</h5>
+                <p>All 25 districts in Sri Lanka</p>
+            </div>
+        </div>
+
+        <div class="highlight-item">
+            <div class="highlight-icon-box icon-crimson">
+                <i class="fa-solid fa-award"></i>
+            </div>
+            <div class="highlight-text">
+                <h5>Guaranteed Match Fabric</h5>
+                <p>Anti-fade colorfast sublimation</p>
+            </div>
+        </div>
+
+        <div class="highlight-item">
+            <div class="highlight-icon-box icon-green">
+                <i class="fa-solid fa-users-gear"></i>
+            </div>
+            <div class="highlight-text">
+                <h5>150+ Teams Outfitted</h5>
+                <p>Schools, clubs & corporations</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER SECTION -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <!-- Brand Info Column -->
+            <div class="footer-brand-col">
+                <div class="footer-logo">
+                    <img src="logo.png" alt="ILT Retail Logo" class="footer-logo-img" onerror="this.src='https://via.placeholder.com/30'"/>
+                    <span class="footer-logo-text">ILT<span class="dot">.</span>RETAIL</span>
+                </div>
+                <p class="footer-brand-desc">
+                    Sri Lanka's trusted manufacturer of premium athletic gear, custom sublimated kits, and customized corporate tournament accessories.
+                </p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/people/ILT-Retail/61579319930885/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/iltretail.srilanka/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://lk.linkedin.com/company/ilt-retail-pvt-limited" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://tiktok.com/@iltretail" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-btn"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <!-- Sports Lines Column -->
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Sports Lines</h4>
+                <ul class="footer-links">
+                    <li><a href="#sports">Rugby Kits & Balls</a></li>
+                    <li><a href="#sports">Cricket Whites & Coloured</a></li>
+                    <li><a href="#sports">Basketball Mesh Sets</a></li>
+                    <li><a href="#sports">Football Strips & Boots</a></li>
+                    <li><a href="#sports">Boxing & Fightwear</a></li>
+                </ul>
+            </div>
+
+            <!-- Accessories Column -->
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Accessories</h4>
+                <ul class="footer-links">
+                    <li><a href="#products">Custom Cufflinks</a></li>
+                    <li><a href="#products">Enamel Lapel Pins</a></li>
+                    <li><a href="#products">Club Tie Pins</a></li>
+                    <li><a href="#products">Embroidered Caps</a></li>
+                    <li><a href="#products">Insulated Steel Bottles</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Column -->
+            <div class="footer-contact-col">
+                <h4 class="footer-heading">Direct Hotline</h4>
+                <p class="contact-subhead">Head Office / Production Unit</p>
+                <p class="contact-info">Colombo, Western Province, Sri Lanka</p>
+                <p class="contact-mono"><i class="fa-solid fa-phone icon-crimson"></i> +94 777 588 738</p>
+                <p class="contact-mono"><i class="fa-solid fa-envelope icon-crimson"></i> <a href="mailto:orders@iltretail.lk" class="email-link">orders@iltretail.lk</a></p>
+            </div>
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div class="footer-bottom">
+            <p class="copyright-text">© 2026 ILT RETAIL (Pvt) Ltd. All Rights Reserved. Engineered for Performance.</p>
+            <div class="developer-credits">
+                <span>Created by — 
+                    <a href="https://www.linkedin.com/in/vinuda-sasmitha-48a211333/" target="_blank" rel="noopener noreferrer" class="dev-link" title="Contact Developer: vinudasasmitha29@gmail.com">Vinuda Edirisooriya</a>
+                </span>
+                <a href="admin.html" aria-label="Admin Dashboard" title="Admin Panel" class="admin-dot"></a>
+            </div>
+        </div>
+    </div>
+</footer>
+    
     </body>
     <script src="script.js"></script>
     </html>

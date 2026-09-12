@@ -28,6 +28,62 @@
             padding: 20px;
         }
 
+        /* ==================== LOGIN OVERLAY STYLES ==================== */
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-dark);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .login-card h2 {
+            margin: 0 0 8px 0;
+            font-size: 22px;
+            color: var(--crimson);
+        }
+
+        .login-card h2 span {
+            color: white;
+        }
+
+        .login-card p {
+            color: var(--text-dim);
+            font-size: 13px;
+            margin: 0 0 25px 0;
+        }
+
+        .login-card .form-group {
+            text-align: left;
+        }
+
+        .login-error-msg {
+            color: #ef4444;
+            font-size: 12px;
+            margin-bottom: 15px;
+            display: none;
+            font-weight: 600;
+        }
+        /* ============================================================= */
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -104,7 +160,6 @@
             border-color: var(--crimson);
         }
 
-        /* Image Preview Style */
         .img-preview {
             width: 100%;
             height: 120px;
@@ -181,6 +236,31 @@
 </head>
 <body>
 
+    <!-- LOGIN OVERLAY -->
+    <div id="loginOverlay">
+        <div class="login-card">
+            <h2>ILT<span>.ADMIN LOGIN</span></h2>
+            <p>Enter credentials to access control panel</p>
+            
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> Username</label>
+                    <input type="text" id="adminUsername" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-lock"></i> Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter password" required>
+                </div>
+
+                <div id="loginErrorMsg" class="login-error-msg">
+                    <i class="fa-solid fa-circle-exclamation"></i> Invalid Username or Password!
+                </div>
+
+                <button type="submit" class="btn"><i class="fa-solid fa-right-to-bracket"></i> Login to Dashboard</button>
+            </form>
+        </div>
+    </div>
+
     <div class="header">
         <h1>ILT<span>.ADMIN DASHBOARD</span></h1>
         <small style="color: var(--text-dim)">Control Panel for Sports & General Retail</small>
@@ -211,22 +291,22 @@
         </div>
 
         <!-- STEP 2: ADD CATEGORY -->
-<div class="step-card">
-    <span class="step-badge">Step 2</span>
-    <h3><i class="fa-solid fa-tags"></i> Add Category / Item Type</h3>
-    <form id="addCategoryForm">
-        <div class="form-group">
-            <label>Category Name (Jersey, Cufflinks, Shorts, Medal) *</label>
-            <input type="text" id="categoryName" placeholder="Cufflinks" required>
+        <div class="step-card">
+            <span class="step-badge">Step 2</span>
+            <h3><i class="fa-solid fa-tags"></i> Add Category / Item Type</h3>
+            <form id="addCategoryForm">
+                <div class="form-group">
+                    <label>Category Name (Jersey, Cufflinks, Shorts, Medal) *</label>
+                    <input type="text" id="categoryName" placeholder="Cufflinks" required>
+                </div>
+                <div class="form-group">
+                    <label>Category Image (Choose File)</label>
+                    <input type="file" id="categoryImageFile" accept="image/*">
+                    <img id="catPreview" class="img-preview" alt="Category Preview">
+                </div>
+                <button type="submit" class="btn">+ Save Category</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label>Category Image (Choose File)</label>
-            <input type="file" id="categoryImageFile" accept="image/*">
-            <img id="catPreview" class="img-preview" alt="Category Preview">
-        </div>
-        <button type="submit" class="btn">+ Save Category</button>
-    </form>
-</div>
 
         <!-- STEP 3: ADD PRODUCT -->
         <div class="step-card" style="border-color: var(--crimson);">
@@ -271,6 +351,32 @@
     </div>
 
     <script>
+        // ==================== ADMIN LOGIN AUTHENTICATION ====================
+        const DEFAULT_USER = "@dmin";
+        const DEFAULT_PASS = "VIP@ILT2024";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('ilt_admin_logged_in') === 'true') {
+                document.getElementById('loginOverlay').style.display = 'none';
+            }
+        });
+
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userVal = document.getElementById('adminUsername').value.trim();
+            const passVal = document.getElementById('adminPassword').value.trim();
+            const errorMsg = document.getElementById('loginErrorMsg');
+
+            if (userVal === DEFAULT_USER && passVal === DEFAULT_PASS) {
+                sessionStorage.setItem('ilt_admin_logged_in', 'true');
+                document.getElementById('loginOverlay').style.display = 'none';
+                errorMsg.style.display = 'none';
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        });
+        // ====================================================================
+
         const API_URL = 'http://localhost:3000/api';
         const SERVER_URL = 'http://localhost:3000';
 
@@ -286,60 +392,70 @@
             setupImagePreviews();
         });
 
-        // 1. Image Preview Generator එකට Category File Input එක එකතු කිරීම
-function setupImagePreviews() {
-    // Product Image Preview
-    document.getElementById('prodImageFile').addEventListener('change', function(e) {
-        const preview = document.getElementById('prodPreview');
-        const file = e.target.files[0];
-        if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
-    });
+        function setupImagePreviews() {
+            document.getElementById('prodImageFile').addEventListener('change', function(e) {
+                const preview = document.getElementById('prodPreview');
+                const file = e.target.files[0];
+                if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
+            });
 
-    // Sport Image Preview
-    document.getElementById('sportImageFile').addEventListener('change', function(e) {
-        const preview = document.getElementById('sportPreview');
-        const file = e.target.files[0];
-        if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
-    });
+            document.getElementById('sportImageFile').addEventListener('change', function(e) {
+                const preview = document.getElementById('sportPreview');
+                const file = e.target.files[0];
+                if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
+            });
 
-    // Category Image Preview (නව කොටස)
-    document.getElementById('categoryImageFile').addEventListener('change', function(e) {
-        const preview = document.getElementById('catPreview');
-        const file = e.target.files[0];
-        if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
-    });
-}
+            document.getElementById('categoryImageFile').addEventListener('change', function(e) {
+                const preview = document.getElementById('catPreview');
+                const file = e.target.files[0];
+                if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
+            });
+        }
 
-// 2. Add Category Form Handler (FormData භාවිතයෙන් Image එක Upload කිරීමට)
-document.getElementById('addCategoryForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData();
-    formData.append('name', document.getElementById('categoryName').value);
-    
-    const fileInput = document.getElementById('categoryImageFile');
-    if (fileInput.files[0]) {
-        formData.append('image', fileInput.files[0]);
-    }
+        // Add Sport Form Handler
+        document.getElementById('addSportForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('name', document.getElementById('sportName').value);
+            formData.append('tagline', document.getElementById('sportTagline').value);
+            
+            const fileInput = document.getElementById('sportImageFile');
+            if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
 
-    try {
-        const res = await fetch(`${API_URL}/categories`, {
-            method: 'POST',
-            body: formData // Multipart form data ලෙස යැවීම
+            try {
+                const res = await fetch(`${API_URL}/sports`, { method: 'POST', body: formData });
+                if (res.ok) {
+                    alert('✅ Sport Added Successfully!');
+                    document.getElementById('addSportForm').reset();
+                    document.getElementById('sportPreview').style.display = 'none';
+                    loadSports();
+                } else {
+                    alert('❌ Failed to add sport.');
+                }
+            } catch (err) { console.error('Error saving sport:', err); }
         });
 
-        if (res.ok) {
-            alert('✅ Category Added Successfully!');
-            document.getElementById('addCategoryForm').reset();
-            document.getElementById('catPreview').style.display = 'none';
-            loadCategories();
-        } else {
-            alert('❌ Failed to add category.');
-        }
-    } catch (err) {
-        console.error('Error saving category:', err);
-    }
-});
+        // Add Category Form Handler
+        document.getElementById('addCategoryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('name', document.getElementById('categoryName').value);
+            
+            const fileInput = document.getElementById('categoryImageFile');
+            if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+
+            try {
+                const res = await fetch(`${API_URL}/categories`, { method: 'POST', body: formData });
+                if (res.ok) {
+                    alert('✅ Category Added Successfully!');
+                    document.getElementById('addCategoryForm').reset();
+                    document.getElementById('catPreview').style.display = 'none';
+                    loadCategories();
+                } else {
+                    alert('❌ Failed to add category.');
+                }
+            } catch (err) { console.error('Error saving category:', err); }
+        });
 
         async function loadSports() {
             try {
@@ -408,7 +524,8 @@ document.getElementById('addCategoryForm').addEventListener('submit', async (e) 
                     document.getElementById('prodPreview').style.display = 'none';
                     loadProducts();
                 } else {
-                    alert('❌ Failed to add product.');
+                    const errData = await res.json();
+                    alert(`❌ Failed to add product: ${errData.error || 'Server Error'}`);
                 }
             } catch (err) {
                 console.error('Error saving product:', err);
