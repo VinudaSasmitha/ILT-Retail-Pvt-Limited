@@ -794,3 +794,620 @@ body {
     background: #dc2626;
     color: #ffffff;
 }
+/* ==========================================
+   COMPACT PRODUCTS SECTION STYLES
+   ========================================== */
+
+/* Products Grid Layout (කුඩා Cards සඳහා) */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* Modern Compact Product Card */
+.product-card {
+    background: #0e1927;
+    border: 1px solid #1e293b;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    border-color: #ef4444;
+    box-shadow: 0 12px 25px rgba(239, 68, 68, 0.18);
+}
+
+/* Compact Image Box */
+.product-img-box {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    background: #05101d;
+    overflow: hidden;
+}
+
+.product-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-img-box img {
+    transform: scale(1.08);
+}
+
+/* Badge for Sport Category */
+.product-sport-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(14, 25, 39, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ef4444;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+}
+
+/* Product Info Area */
+.product-details {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.product-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-footer-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.view-prod-btn {
+    font-size: 12px;
+    color: #ef4444;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s ease;
+}
+
+.product-card:hover .view-prod-btn {
+    gap: 10px;
+}
+
+/* ==========================================
+   LIGHT MODE OVERRIDES ([data-theme="light"])
+   ========================================== */
+[data-theme="light"] .product-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .product-card:hover {
+    border-color: #ef4444;
+    box-shadow: 0 12px 25px rgba(239, 68, 68, 0.12);
+}
+
+[data-theme="light"] .product-img-box {
+    background: #f1f5f9;
+}
+
+[data-theme="light"] .product-title {
+    color: #0f172a;
+}
+
+[data-theme="light"] .product-sport-badge {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .product-footer-action {
+    border-top-color: #e2e8f0;
+}
+
+/* ==========================================
+   CATEGORIES SECTION COMPLETE CSS
+   ========================================== */
+
+/* 1. Theme Color Variables (Light / Dark) */
+:root, [data-theme="dark"] {
+    --bg-main: #05101d;
+    --card-bg: #0d1524;
+    --card-border: #1e293b;
+    --card-shadow: rgba(0, 0, 0, 0.4);
+    --text-main: #ffffff;
+    --text-dim: #94a3b8;
+    --crimson: #f43f5e;
+    --badge-bg: rgba(244, 63, 94, 0.12);
+}
+
+[data-theme="light"] {
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-shadow: rgba(0, 0, 0, 0.06);
+    --text-main: #0f172a;
+    --text-dim: #64748b;
+    --crimson: #e11d48;
+    --badge-bg: rgba(225, 29, 72, 0.1);
+}
+
+/* 2. Main Section Container & Centered Header */
+.section-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--badge-bg);
+    color: var(--crimson);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.section-main-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+    color: var(--text-main);
+    letter-spacing: -0.3px;
+}
+
+.section-main-title span {
+    color: var(--crimson);
+}
+
+.section-subtitle {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 0;
+}
+
+/* 3. Grid Container (Items 1 සිට 20+ දක්වා හරියටම මැදට Center වන Layout එක) */
+#categoriesGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* 4. JS එකෙන් Add වන Category Card Styling */
+.category-card {
+    width: 160px;
+    flex: 0 0 160px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px var(--card-shadow);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--crimson);
+    box-shadow: 0 8px 20px rgba(244, 63, 94, 0.18);
+}
+
+.category-card img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    background-color: #000;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover img {
+    transform: scale(1.05);
+}
+
+.category-card h4 {
+    margin: 10px 0 2px 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 5. Loading Spinner State Styling */
+.loading-state {
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+    color: var(--text-dim);
+}
+
+.loading-state i {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--crimson);
+}
+
+.loading-state p {
+    font-size: 13px;
+    margin: 0;
+}
+
+/* Mobile Screens සදහා Responsive Adjustment */
+@media (max-width: 480px) {
+    .category-card {
+        width: 140px;
+        flex: 0 0 140px;
+    }
+    .category-card img {
+        height: 95px;
+    }
+}
+/* ==========================================
+   CUSTOM KIT SECTION (LIGHT & DARK MODE)
+   ========================================== */
+
+/* 1. CSS Theme Variables */
+:root, [data-theme="dark"] {
+    --ck-bg: #0b1322;
+    --ck-border: #1e293b;
+    --ck-shadow: rgba(0, 0, 0, 0.5);
+    --step-bg: #131e30;
+    --step-border: #1e293b;
+    --text-bright: #ffffff;
+    --text-sub: #94a3b8;
+    --btn-sec-bg: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] {
+    --ck-bg: #ffffff;
+    --ck-border: #e2e8f0;
+    --ck-shadow: rgba(0, 0, 0, 0.08);
+    --step-bg: #f8fafc;
+    --step-border: #cbd5e1;
+    --text-bright: #0f172a;
+    --text-sub: #64748b;
+    --btn-sec-bg: #f1f5f9;
+}
+
+/* 2. Main Container & Outer Card */
+.custom-kit-section {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.custom-kit-card {
+    position: relative;
+    background: var(--ck-bg);
+    border: 1px solid var(--ck-border);
+    border-radius: 24px;
+    padding: 40px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px var(--ck-shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* 3. Ambient Glow Circles Background */
+.glow-circle {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+.glow-crimson {
+    top: -100px;
+    left: -100px;
+    background: #f43f5e;
+}
+
+.glow-yellow {
+    bottom: -100px;
+    right: -100px;
+    background: #f59e0b;
+}
+
+/* 4. Two-Column Grid Layout */
+.custom-kit-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 35px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* 5. Left Content Column */
+.engine-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #f59e0b;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.custom-kit-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0 0 14px 0;
+    color: var(--text-bright);
+    letter-spacing: -0.5px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #f43f5e, #fb923c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.custom-kit-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-sub);
+    margin: 0 0 26px 0;
+    max-width: 580px;
+}
+
+/* 6. Step Cards Grid (01 - 04) */
+.kit-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.step-card {
+    background: var(--step-bg);
+    border: 1px solid var(--step-border);
+    border-radius: 12px;
+    padding: 12px 10px;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-2px);
+    border-color: #f43f5e;
+}
+
+.step-num {
+    font-size: 10px;
+    font-weight: 800;
+    color: #f43f5e;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.step-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin: 0 0 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.step-sub {
+    font-size: 10px;
+    color: var(--text-sub);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 7. Action Buttons */
+.kit-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f43f5e;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(244, 63, 94, 0.4);
+    transition: all 0.2s ease;
+}
+
+.cta-btn:hover {
+    background: #e11d48;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(244, 63, 94, 0.6);
+}
+
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--btn-sec-bg);
+    border: 1px solid var(--step-border);
+    color: var(--text-bright);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+    border-color: #f43f5e;
+    color: #f43f5e;
+}
+
+/* 8. Right Preview Image Card */
+.custom-kit-preview {
+    width: 100%;
+}
+
+.preview-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--step-border);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+.preview-img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    display: block;
+}
+
+.preview-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.top-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 3;
+}
+
+.pulse-dot {
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #10b981;
+}
+
+.bottom-badge {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 12px 16px;
+    border-radius: 12px;
+    z-index: 3;
+}
+
+.preview-title {
+    margin: 0 0 2px 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.preview-sub {
+    margin: 0;
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+/* 9. Responsive Adjustments */
+@media (max-width: 992px) {
+    .custom-kit-grid {
+        grid-template-columns: 1fr;
+    }
+    .preview-img {
+        height: 300px;
+    }
+}
+
+@media (max-width: 640px) {
+    .custom-kit-card {
+        padding: 24px;
+    }
+    .kit-steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .custom-kit-title {
+        font-size: 24px;
+    }
+}

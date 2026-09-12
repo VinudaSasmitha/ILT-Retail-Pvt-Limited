@@ -95,8 +95,24 @@
             outline: none;
         }
 
+        .form-group input[type="file"] {
+            padding: 7px;
+            cursor: pointer;
+        }
+
         .form-group input:focus, .form-group select:focus {
             border-color: var(--crimson);
+        }
+
+        /* Image Preview Style */
+        .img-preview {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 8px;
+            border: 1px dashed var(--border);
+            display: none;
         }
 
         .btn {
@@ -132,17 +148,35 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .prod-item img {
             width: 100%;
-            height: 150px;
+            height: 140px;
             object-fit: cover;
             border-radius: 8px;
+            background: #000;
         }
 
         .prod-title { font-size: 13px; font-weight: 700; margin: 8px 0 4px 0; }
         .prod-badge { font-size: 10px; color: var(--crimson); font-weight: 600; }
+
+        .delete-btn {
+            background: rgba(220, 38, 38, 0.85);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 5px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.2s;
+        }
+        .delete-btn:hover { background: #dc2626; }
     </style>
 </head>
 <body>
@@ -170,23 +204,29 @@
                 <div class="form-group">
                     <label>Sport Image (Choose File)</label>
                     <input type="file" id="sportImageFile" accept="image/*">
+                    <img id="sportPreview" class="img-preview" alt="Sport Preview">
                 </div>
                 <button type="submit" class="btn">+ Save Sport</button>
             </form>
         </div>
 
         <!-- STEP 2: ADD CATEGORY -->
-        <div class="step-card">
-            <span class="step-badge">Step 2</span>
-            <h3><i class="fa-solid fa-tags"></i> Add Category / Item Type</h3>
-            <form id="addCategoryForm">
-                <div class="form-group">
-                    <label>Category Name (Jersey, Cufflinks, Shorts, Medal)</label>
-                    <input type="text" id="categoryName" placeholder="Cufflinks" required>
-                </div>
-                <button type="submit" class="btn" style="margin-top: 85px;">+ Save Category</button>
-            </form>
+<div class="step-card">
+    <span class="step-badge">Step 2</span>
+    <h3><i class="fa-solid fa-tags"></i> Add Category / Item Type</h3>
+    <form id="addCategoryForm">
+        <div class="form-group">
+            <label>Category Name (Jersey, Cufflinks, Shorts, Medal) *</label>
+            <input type="text" id="categoryName" placeholder="Cufflinks" required>
         </div>
+        <div class="form-group">
+            <label>Category Image (Choose File)</label>
+            <input type="file" id="categoryImageFile" accept="image/*">
+            <img id="catPreview" class="img-preview" alt="Category Preview">
+        </div>
+        <button type="submit" class="btn">+ Save Category</button>
+    </form>
+</div>
 
         <!-- STEP 3: ADD PRODUCT -->
         <div class="step-card" style="border-color: var(--crimson);">
@@ -213,8 +253,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Product Image (Choose File)</label>
+                    <label>Product Image (Choose File) *</label>
                     <input type="file" id="prodImageFile" accept="image/*" required>
+                    <img id="prodPreview" class="img-preview" alt="Product Preview">
                 </div>
 
                 <button type="submit" class="btn">+ Save Product Item</button>
@@ -242,22 +283,76 @@
             loadSports();
             loadCategories();
             loadProducts();
+            setupImagePreviews();
         });
 
-        async function loadSports() {
-    try {
-        const res = await fetch(`${API_URL}/sports`);
-        const resData = await res.json();
-        const sports = Array.isArray(resData) ? resData : (resData.data || []);
-        
-        sportSelect.innerHTML = '<option value="">-- General / No Sport (Accessories) --</option>';
-        sports.forEach(s => {
-            sportSelect.innerHTML += `<option value="${s.id}" data-name="${s.name}">${s.name}</option>`;
-        });
-    } catch (err) { 
-        console.error('Error loading sports', err); 
-    }
+        // 1. Image Preview Generator එකට Category File Input එක එකතු කිරීම
+function setupImagePreviews() {
+    // Product Image Preview
+    document.getElementById('prodImageFile').addEventListener('change', function(e) {
+        const preview = document.getElementById('prodPreview');
+        const file = e.target.files[0];
+        if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
+    });
+
+    // Sport Image Preview
+    document.getElementById('sportImageFile').addEventListener('change', function(e) {
+        const preview = document.getElementById('sportPreview');
+        const file = e.target.files[0];
+        if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
+    });
+
+    // Category Image Preview (නව කොටස)
+    document.getElementById('categoryImageFile').addEventListener('change', function(e) {
+        const preview = document.getElementById('catPreview');
+        const file = e.target.files[0];
+        if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
+    });
 }
+
+// 2. Add Category Form Handler (FormData භාවිතයෙන් Image එක Upload කිරීමට)
+document.getElementById('addCategoryForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append('name', document.getElementById('categoryName').value);
+    
+    const fileInput = document.getElementById('categoryImageFile');
+    if (fileInput.files[0]) {
+        formData.append('image', fileInput.files[0]);
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/categories`, {
+            method: 'POST',
+            body: formData // Multipart form data ලෙස යැවීම
+        });
+
+        if (res.ok) {
+            alert('✅ Category Added Successfully!');
+            document.getElementById('addCategoryForm').reset();
+            document.getElementById('catPreview').style.display = 'none';
+            loadCategories();
+        } else {
+            alert('❌ Failed to add category.');
+        }
+    } catch (err) {
+        console.error('Error saving category:', err);
+    }
+});
+
+        async function loadSports() {
+            try {
+                const res = await fetch(`${API_URL}/sports`);
+                const resData = await res.json();
+                const sports = Array.isArray(resData) ? resData : (resData.data || []);
+                
+                sportSelect.innerHTML = '<option value="">-- General / No Sport (Accessories) --</option>';
+                sports.forEach(s => {
+                    sportSelect.innerHTML += `<option value="${s.id}" data-name="${s.name}">${s.name}</option>`;
+                });
+            } catch (err) { console.error('Error loading sports', err); }
+        }
 
         async function loadCategories() {
             try {
@@ -285,40 +380,7 @@
         sportSelect.addEventListener('change', autoFillTitle);
         categorySelect.addEventListener('change', autoFillTitle);
 
-        document.getElementById('addSportForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append('name', document.getElementById('sportName').value);
-            formData.append('tagline', document.getElementById('sportTagline').value);
-            if (document.getElementById('sportImageFile').files[0]) {
-                formData.append('image', document.getElementById('sportImageFile').files[0]);
-            }
-
-            const res = await fetch(`${API_URL}/sports`, { method: 'POST', body: formData });
-            if (res.ok) {
-                alert('✅ Sport Added!');
-                document.getElementById('addSportForm').reset();
-                loadSports();
-            }
-        });
-
-        document.getElementById('addCategoryForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('categoryName').value;
-
-            const res = await fetch(`${API_URL}/categories`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name })
-            });
-
-            if (res.ok) {
-                alert('✅ Category Added!');
-                document.getElementById('addCategoryForm').reset();
-                loadCategories();
-            }
-        });
-
+        // Add Product Form Handler
         document.getElementById('addProductForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData();
@@ -329,35 +391,72 @@
             }
             formData.append('category_id', categorySelect.value);
 
-            if (document.getElementById('prodImageFile').files[0]) {
-                formData.append('image', document.getElementById('prodImageFile').files[0]);
+            const fileInput = document.getElementById('prodImageFile');
+            if (fileInput.files[0]) {
+                formData.append('image', fileInput.files[0]);
             }
 
-            const res = await fetch(`${API_URL}/products`, { method: 'POST', body: formData });
-            if (res.ok) {
-                alert('🎉 Product Item Successfully Added!');
-                document.getElementById('addProductForm').reset();
-                loadProducts();
+            try {
+                const res = await fetch(`${API_URL}/products`, { 
+                    method: 'POST', 
+                    body: formData 
+                });
+
+                if (res.ok) {
+                    alert('🎉 Product Item Successfully Added!');
+                    document.getElementById('addProductForm').reset();
+                    document.getElementById('prodPreview').style.display = 'none';
+                    loadProducts();
+                } else {
+                    alert('❌ Failed to add product.');
+                }
+            } catch (err) {
+                console.error('Error saving product:', err);
             }
         });
 
+        // Load Live Inventory
         async function loadProducts() {
             try {
                 const res = await fetch(`${API_URL}/products`);
-                const products = await res.json();
+                const resData = await res.json();
+                const products = Array.isArray(resData) ? resData : (resData.data || []);
+                
                 productsGrid.innerHTML = '';
                 
+                if (products.length === 0) {
+                    productsGrid.innerHTML = '<p style="color: var(--text-dim); text-align: center; grid-column: 1/-1;">No products found.</p>';
+                    return;
+                }
+
                 products.forEach(p => {
-                    const imgSrc = p.image_url ? `${SERVER_URL}${p.image_url}` : 'https://via.placeholder.com/150';
+                    const title = p.name || p.product_title || 'Product';
+                    const imgPath = p.image_url || p.image || '';
+                    const imgSrc = imgPath ? `${SERVER_URL}${imgPath}` : 'https://via.placeholder.com/150';
+
                     productsGrid.innerHTML += `
                         <div class="prod-item">
-                            <img src="${imgSrc}" alt="${p.product_title}">
+                            <img src="${imgSrc}" alt="${title}">
                             <div class="prod-badge">${p.sport_name || 'General Accessory'}</div>
-                            <div class="prod-title">${p.product_title}</div>
+                            <div class="prod-title">${title}</div>
+                            <button class="delete-btn" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i> Delete</button>
                         </div>
                     `;
                 });
             } catch (err) { console.error('Error loading products', err); }
+        }
+
+        // Delete Product Handler
+        async function deleteProduct(id) {
+            if (!confirm('Are you sure you want to delete this product?')) return;
+            try {
+                const res = await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    loadProducts();
+                } else {
+                    alert('Failed to delete product.');
+                }
+            } catch (err) { console.error('Error deleting product', err); }
         }
     </script>
 </body>

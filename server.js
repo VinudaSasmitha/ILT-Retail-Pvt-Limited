@@ -19,13 +19,13 @@ if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// 2. MySQL Connection (multipleStatements: true එකතු කර ඇත)
+// 2. MySQL Connection
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '', 
     database: 'ilt_retail',
-    multipleStatements: true // <-- Queries කිහිපයක් එකවර ක්‍රියාත්මක කිරීමට මෙය අවශ්‍ය වේ
+    multipleStatements: true
 });
 
 db.connect((err) => {
@@ -35,7 +35,7 @@ db.connect((err) => {
     }
     console.log('✅ MySQL Database Connected Successfully!');
 
-    // Automatic Tables Creation
+    // Table Creation Queries
     const createTables = `
         CREATE TABLE IF NOT EXISTS sports_categories (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,7 +47,8 @@ db.connect((err) => {
 
         CREATE TABLE IF NOT EXISTS categories (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(255) NOT NULL
+            name VARCHAR(255) NOT NULL,
+            image_url VARCHAR(255)
         );
 
         CREATE TABLE IF NOT EXISTS products (
@@ -62,7 +63,7 @@ db.connect((err) => {
 
     db.query(createTables, (tableErr) => {
         if (tableErr) {
-            console.error('Error creating tables:', tableErr);
+            console.error('❌ Table Creation Error:', tableErr);
         } else {
             console.log('✅ All Database Tables Ready!');
         }
@@ -79,6 +80,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // 4. API Routes
+
+// --- SPORTS API ---
 app.get('/api/sports', (req, res) => {
     const sql = `
         SELECT s.*, COUNT(p.id) AS product_count 
@@ -88,7 +91,10 @@ app.get('/api/sports', (req, res) => {
         ORDER BY s.id DESC
     `;
     db.query(sql, (err, results) => {
-        if (err) return res.status(500).json({ success: false, error: err.message });
+        if (err) {
+            console.error('❌ SQL Error (GET /api/sports):', err.message);
+            return res.status(500).json({ success: false, error: err.message });
+        }
         res.status(200).json({ success: true, data: results });
     });
 });
@@ -101,27 +107,49 @@ app.post('/api/sports', upload.any(), (req, res) => {
     }
 
     const sql = 'INSERT INTO sports_categories (name, description, icon) VALUES (?, ?, ?)';
-    db.query(sql, [name, tagline || '', iconValue], (err, result) => {
-        if (err) return res.status(500).json({ success: false, error: err.message });
+    db.query(sql, [name || '', tagline || '', iconValue], (err, result) => {
+        if (err) {
+            console.error('❌ SQL Error (POST /api/sports):', err.message);
+            return res.status(500).json({ success: false, error: err.message });
+        }
         res.status(200).json({ success: true, message: 'Sport added successfully!' });
     });
 });
 
+// --- CATEGORIES API ---
 app.get('/api/categories', (req, res) => {
     db.query('SELECT * FROM categories ORDER BY id DESC', (err, results) => {
-        if (err) return res.status(500).json({ success: false, error: err.message });
+        if (err) {
+            console.error('❌ SQL Error (GET /api/categories):', err.message);
+            return res.status(500).json({ success: false, error: err.message });
+        }
         res.status(200).json(results);
     });
 });
 
-app.post('/api/categories', (req, res) => {
+app.post('/api/categories', upload.any(), (req, res) => {
     const { name } = req.body;
-    db.query('INSERT INTO categories (name) VALUES (?)', [name], (err, result) => {
-        if (err) return res.status(500).json({ success: false, error: err.message });
-        res.status(200).json({ success: true, message: 'Category added!' });
+    let imageUrl = '';
+    
+    if (req.files && req.files.length > 0) {
+        imageUrl = `/uploads/${req.files[0].filename}`;
+    }
+
+    if (!name || name.trim() === '') {
+        return res.status(400).json({ success: false, error: 'Category name is required.' });
+    }
+
+    const sql = 'INSERT INTO categories (name, image_url) VALUES (?, ?)';
+    db.query(sql, [name, imageUrl], (err, result) => {
+        if (err) {
+            console.error('❌ SQL Error (POST /api/categories):', err.message);
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.status(200).json({ success: true, message: 'Category added successfully!' });
     });
 });
 
+// --- PRODUCTS API ---
 app.get('/api/products', (req, res) => {
     const sql = `
         SELECT p.*, p.name AS product_title, s.name AS sport_name 
@@ -130,7 +158,10 @@ app.get('/api/products', (req, res) => {
         ORDER BY p.id DESC
     `;
     db.query(sql, (err, results) => {
-        if (err) return res.status(500).json({ success: false, error: err.message });
+        if (err) {
+            console.error('❌ SQL Error (GET /api/products):', err.message);
+            return res.status(500).json({ success: false, error: err.message });
+        }
         res.status(200).json(results);
     });
 });
@@ -138,14 +169,38 @@ app.get('/api/products', (req, res) => {
 app.post('/api/products', upload.any(), (req, res) => {
     const { name, sport_id, category_id } = req.body;
     let imageUrl = '';
+
     if (req.files && req.files.length > 0) {
         imageUrl = `/uploads/${req.files[0].filename}`;
     }
 
+    // Input Sanitization (Empty Strings -> NULL/Integer conversion)
+    const validSportId = (sport_id && sport_id !== '' && sport_id !== 'null') ? parseInt(sport_id) : null;
+    const validCategoryId = (category_id && category_id !== '' && category_id !== 'null') ? parseInt(category_id) : null;
+
+    if (!name || !validCategoryId) {
+        return res.status(400).json({ success: false, error: 'Product name and Category ID are required.' });
+    }
+
     const sql = 'INSERT INTO products (name, sport_id, category_id, image_url) VALUES (?, ?, ?, ?)';
-    db.query(sql, [name, sport_id || null, category_id, imageUrl], (err, result) => {
-        if (err) return res.status(500).json({ success: false, error: err.message });
-        res.status(200).json({ success: true, message: 'Product added!' });
+    db.query(sql, [name, validSportId, validCategoryId, imageUrl], (err, result) => {
+        if (err) {
+            console.error('❌ SQL Error (POST /api/products):', err.message);
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.status(200).json({ success: true, message: 'Product added successfully!' });
+    });
+});
+
+// DELETE Product Endpoint
+app.delete('/api/products/:id', (req, res) => {
+    const { id } = req.params;
+    db.query('DELETE FROM products WHERE id = ?', [parseInt(id)], (err, result) => {
+        if (err) {
+            console.error('❌ SQL Error (DELETE /api/products):', err.message);
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.status(200).json({ success: true, message: 'Product deleted successfully!' });
     });
 });
 
