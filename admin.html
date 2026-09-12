@@ -245,15 +245,19 @@
         });
 
         async function loadSports() {
-            try {
-                const res = await fetch(`${API_URL}/sports`);
-                const sports = await res.json();
-                sportSelect.innerHTML = '<option value="">-- General / No Sport (Accessories) --</option>';
-                sports.forEach(s => {
-                    sportSelect.innerHTML += `<option value="${s.id}" data-name="${s.name}">${s.name}</option>`;
-                });
-            } catch (err) { console.error('Error loading sports', err); }
-        }
+    try {
+        const res = await fetch(`${API_URL}/sports`);
+        const resData = await res.json();
+        const sports = Array.isArray(resData) ? resData : (resData.data || []);
+        
+        sportSelect.innerHTML = '<option value="">-- General / No Sport (Accessories) --</option>';
+        sports.forEach(s => {
+            sportSelect.innerHTML += `<option value="${s.id}" data-name="${s.name}">${s.name}</option>`;
+        });
+    } catch (err) { 
+        console.error('Error loading sports', err); 
+    }
+}
 
         async function loadCategories() {
             try {
