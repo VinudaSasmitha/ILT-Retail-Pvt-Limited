@@ -1452,3 +1452,787 @@ th {
         align-items: flex-start;
     }
 }
+/* ==========================================================
+   FEATURED PRODUCTS SECTION & CATALOG STYLES
+========================================================== */
+
+/* Main Section Layout */
+#products-section {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* 1. CATALOG HEADER (Title + Search Bar Layout) */
+#products-section > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #1f2937;
+}
+
+@media (min-width: 768px) {
+    #products-section > div:first-child {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+}
+
+/* Search Input Styling */
+#catalogSearch {
+    width: 100%;
+    background-color: #0e1927 !important;
+    border: 1px solid #374151 !important;
+    color: #ffffff !important;
+    padding: 10px 14px 10px 36px !important;
+    border-radius: 12px !important;
+    font-size: 13px !important;
+    outline: none !important;
+    box-sizing: border-box;
+}
+
+#catalogSearch:focus {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* 2. FILTER CONTROLS BAR */
+#products-section > div:nth-child(2) {
+    background-color: #0e1927;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+    margin-bottom: 24px;
+}
+
+@media (min-width: 640px) {
+    #products-section > div:nth-child(2) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Select Dropdowns */
+#catalogSportSelect, 
+#catalogCategorySelect {
+    width: 100%;
+    background-color: #05101d !important;
+    border: 1px solid #374151 !important;
+    color: #ffffff !important;
+    padding: 10px !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    outline: none !important;
+    box-sizing: border-box;
+}
+
+#catalogSportSelect:focus, 
+#catalogCategorySelect:focus {
+    border-color: #ef4444 !important;
+}
+
+/* 3. PRODUCTS GRID LAYOUT (විශාල වී තිබූ Cards පාලනය කිරීම) */
+#catalogProductsGrid .grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+}
+
+@media (min-width: 640px) {
+    #catalogProductsGrid .grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    #catalogProductsGrid .grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+}
+
+@media (min-width: 1280px) {
+    #catalogProductsGrid .grid {
+        grid-template-columns: repeat(5, 1fr) !important;
+    }
+}
+
+/* 4. INDIVIDUAL PRODUCT CARD STYLING */
+.product-card {
+    background-color: #0e1927 !important;
+    border: 1px solid #1f2937 !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.product-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: rgba(239, 68, 68, 0.6) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* IMAGE FIX - පින්තූරය පාලනය කරන කොටස (IMPORTANT) */
+.product-card .aspect-\\[4\\/5\\], 
+.product-card .card-img-container {
+    position: relative !important;
+    width: 100% !important;
+    height: 230px !important; /* Fixed image box height */
+    overflow: hidden !important;
+    background-color: #000000 !important;
+}
+
+.product-card img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* Image එක Fit වෙන විදිය */
+    display: block !important;
+    transition: transform 0.5s ease !important;
+}
+
+.product-card:hover img {
+    transform: scale(1.08) !important;
+}
+
+/* Text Clamping (පේළි 2කට සීමා කිරීම) */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* WhatsApp Inquiry Button */
+.product-card a {
+    text-decoration: none !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.product-card a:hover {
+    background-color: #059669 !important;
+}
+/* ==========================================================
+   FEATURED PRODUCTS SECTION - COMPLETE STYLES
+========================================================== */
+
+/* Main Section Base */
+#products-section {
+  width: 100%;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* 1. RED PULSE ANIMATION (Live Inventory Dot) */
+@keyframes redPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  50% {
+    transform: scale(0.92);
+    opacity: 0.5;
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0);
+  }
+}
+
+#products-section .animate-pulse {
+  animation: redPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 2. SEARCH BAR & CLEAR/RESET BUTTONS */
+#catalogSearch {
+  background-color: #0e1927 !important;
+  border: 1px solid #1f2937 !important;
+  color: #ffffff !important;
+  transition: all 0.25s ease-in-out !important;
+}
+
+#catalogSearch:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2) !important;
+  outline: none !important;
+}
+
+#clearSearchBtn {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+#resetCatalogFiltersBtn {
+  cursor: pointer;
+  transition: all 0.25s ease !important;
+}
+
+#resetCatalogFiltersBtn:hover {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35) !important;
+}
+
+/* 3. DROPDOWN SELECTS */
+#catalogSportSelect,
+#catalogCategorySelect {
+  background-color: #05101d !important;
+  border: 1px solid #1f2937 !important;
+  color: #ffffff !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+  cursor: pointer;
+}
+
+#catalogSportSelect:focus,
+#catalogCategorySelect:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2) !important;
+}
+
+#catalogSportSelect option,
+#catalogCategorySelect option {
+  background-color: #0e1927;
+  color: #ffffff;
+  padding: 10px;
+}
+
+/* 4. PRODUCTS GRID SYSTEM (EQUAL CARD SIZES) */
+#catalogProductsGrid {
+  width: 100%;
+}
+
+.products-grid-inner {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+}
+
+@media (min-width: 640px) {
+  .products-grid-inner {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid-inner {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .products-grid-inner {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+
+/* 5. INDIVIDUAL PRODUCT CARD DESIGN */
+.product-card {
+  background-color: #0e1927 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  height: 100% !important; /* Forces all cards to match row height */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.product-card:hover {
+  transform: translateY(-6px) !important;
+  border-color: rgba(220, 38, 38, 0.6) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(220, 38, 38, 0.15) !important;
+}
+
+/* FIXED IMAGE RATIO (පින්තූර සියල්ල එකම ප්‍රමාණයට සකසයි) */
+.product-card .card-img-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 4 / 5 !important; /* Height-width ratio fixed */
+  background-color: #050a12 !important;
+  overflow: hidden !important;
+}
+
+.product-card img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Crops evenly without stretch */
+  display: block !important;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.product-card:hover img {
+  transform: scale(1.08) !important;
+}
+
+/* CARD BODY & TITLE CLAMPING */
+.product-card .card-body {
+  padding: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+}
+
+.product-card .product-title {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.01em !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  height: 35px !important; /* Fixed height for 2 lines */
+}
+
+/* WHATSAPP INQUIRY BUTTON */
+.product-card .btn-whatsapp {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 9px 12px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25) !important;
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease !important;
+}
+
+.product-card .btn-whatsapp:hover {
+  background-color: #10b981 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35) !important;
+}
+/* ==========================================================
+   ILT RETAIL - FEATURED PRODUCTS CATALOG SYSTEM
+   Professional Ultra-Modern Dark Theme CSS
+========================================================== */
+
+/* 1. MAIN SECTION CONTAINER */
+#products-section {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 0;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #ffffff;
+}
+
+/* 2. LIVE INVENTORY PULSE ANIMATION */
+@keyframes liveRedPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+#products-section .animate-pulse {
+  animation: liveRedPulse 2s infinite ease-in-out;
+}
+
+/* 3. SEARCH BAR & INPUT CONTROLS */
+#catalogSearch {
+  background-color: #0e1927 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  border-radius: 12px !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+#catalogSearch:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  outline: none !important;
+}
+
+#catalogSearch::placeholder {
+  color: #6b7280;
+}
+
+/* Clear & Reset Buttons */
+#clearSearchBtn {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#clearSearchBtn:hover {
+  color: #ef4444;
+  transform: translateY(-50%) scale(1.1);
+}
+
+#resetCatalogFiltersBtn {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid #ef4444 !important;
+  color: #ef4444 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer;
+}
+
+#resetCatalogFiltersBtn:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+/* 4. MODERN DROPDOWN SELECTS (CUSTOM ARROWS) */
+#catalogSportSelect,
+#catalogCategorySelect {
+  background-color: #05101d !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  appearance: none; /* Modern custom arrow */
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 14px !important;
+  padding-right: 30px !important;
+  transition: all 0.25s ease !important;
+}
+
+#catalogSportSelect:focus,
+#catalogCategorySelect:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+  outline: none !important;
+}
+
+#catalogSportSelect option,
+#catalogCategorySelect option {
+  background-color: #0e1927;
+  color: #ffffff;
+  padding: 10px;
+}
+
+/* 5. RESPONSIVE GRID LAYOUT (CARDS GRID) */
+#catalogProductsGrid {
+  width: 100%;
+}
+
+.products-grid-wrapper {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+}
+
+@media (min-width: 640px) {
+  .products-grid-wrapper {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid-wrapper {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .products-grid-wrapper {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+
+/* 6. ULTRA-MODERN PRODUCT CARD (UNIFORM SIZES) */
+.product-card {
+  background-color: #0e1927 !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  height: 100% !important; /* All cards fixed same row height */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35) !important;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.product-card:hover {
+  transform: translateY(-7px) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(239, 68, 68, 0.15) !important;
+}
+
+/* CARD IMAGE CONTAINER (EQUAL ASPECT RATIO 4:5) */
+.product-card .card-img-box {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 4 / 5 !important; /* Uniform height-to-width ratio */
+  background-color: #050a12 !important;
+  overflow: hidden !important;
+}
+
+.product-card .card-img-box img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Prevents image stretching */
+  display: block !important;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.product-card:hover .card-img-box img {
+  transform: scale(1.08) !important;
+}
+
+/* Overlay Gradient on Image */
+.product-card .card-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, transparent 40%, rgba(14, 25, 39, 0.9) 100%);
+  pointer-events: none;
+}
+
+/* Glassmorphism Favorite Heart Button */
+.product-card .fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.25s ease;
+}
+
+.product-card .fav-btn:hover {
+  background: rgba(239, 68, 68, 0.9);
+  transform: scale(1.1);
+  border-color: transparent;
+}
+
+/* Card Body Details */
+.product-card .card-body-content {
+  padding: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+}
+
+/* Clamped Product Title (Always 2 Lines Height) */
+.product-card .card-title {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.01em !important;
+  height: 35px !important; /* Fixed height for title area */
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  transition: color 0.2s ease;
+}
+
+.product-card:hover .card-title {
+  color: #ef4444 !important;
+}
+
+/* 7. WHATSAPP BUTTON (SHINE & GLOW EFFECT) */
+.product-card .whatsapp-action-btn {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  padding: 10px 14px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25) !important;
+  transition: all 0.3s ease !important;
+}
+
+.product-card .whatsapp-action-btn:hover {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45) !important;
+  transform: translateY(-1px);
+}
+/* ==========================================================
+   ULTRA-MODERN RED-NEON SEARCH BAR & CONTROLS
+========================================================== */
+
+/* Search Container Wrapper */
+#products-section .search-input-wrapper {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* 1. MAIN SEARCH INPUT FIELD */
+#products-section #catalogSearch {
+  width: 100% !important;
+  height: 46px !important; /* Perfect clickable height */
+  padding-left: 44px !important;
+  padding-right: 40px !important;
+  background: rgba(14, 25, 39, 0.75) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 14px !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Input Placeholder Color */
+#products-section #catalogSearch::placeholder {
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+/* INPUT FOCUS STATE (Red Neon Glow Effect) */
+#products-section #catalogSearch:focus {
+  background: rgba(14, 25, 39, 0.95) !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2), 
+              0 8px 25px rgba(239, 68, 68, 0.25) !important;
+  outline: none !important;
+}
+
+/* 2. SEARCH ICON STYLING */
+#products-section .search-icon {
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 20px !important;
+  color: #9ca3af !important;
+  pointer-events: none !important;
+  transition: color 0.3s ease, transform 0.3s ease !important;
+  z-index: 2 !important;
+}
+
+/* Change icon color when searching */
+#products-section #catalogSearch:focus ~ .search-icon {
+  color: #ef4444 !important;
+  transform: translateY(-50%) scale(1.1) !important;
+}
+
+/* 3. CLEAR BUTTON (✕) */
+#products-section #clearSearchBtn {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #9ca3af !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  border: none !important;
+  cursor: pointer !important;
+  z-index: 2 !important;
+  transition: all 0.25s ease !important;
+}
+
+#products-section #clearSearchBtn:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important;
+  transform: translateY(-50%) rotate(90deg) !important;
+}
+
+/* 4. RESET BUTTON STYLING */
+#products-section #resetCatalogFiltersBtn {
+  height: 46px !important;
+  padding: 0 18px !important;
+  border-radius: 14px !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1.5px solid #ef4444 !important;
+  color: #ef4444 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  backdrop-filter: blur(8px) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  shrink: 0 !important;
+}
+
+#products-section #resetCatalogFiltersBtn:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45) !important;
+  transform: translateY(-2px) !important;
+}
+
+#products-section #resetCatalogFiltersBtn:active {
+  transform: translateY(0) !important;
+}

@@ -13,7 +13,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -26,23 +26,23 @@
             
             <!-- Left: Brand Logo -->
             <a href="index.html" class="brand">
-    <div class="logo-box">
-        <img src="logo.png" alt="ILT Retail Logo">
-    </div>
-    <div class="brand-text">
-        <div class="brand-title">ILT<span>.</span>RETAIL</div>
-        <div class="brand-sub">Crafts & Clothing</div>
-    </div>
-</a>
+                <div class="logo-box">
+                    <img src="logo.png" alt="ILT Retail Logo" onerror="this.src='https://via.placeholder.com/40'">
+                </div>
+                <div class="brand-text">
+                    <div class="brand-title">ILT<span>.</span>RETAIL</div>
+                    <div class="brand-sub">Crafts & Clothing</div>
+                </div>
+            </a>
 
             <!-- Center: Navigation Links -->
             <div class="center-nav">
                 <nav class="main-nav">
                     <ul>
                         <li><a href="#home" class="active">Home</a></li>
+                        <li><a href="#sports">Sports</a></li>
                         <li><a href="#products">Products</a></li>
-                        <li><a href="#custom-kits" class="highlight"><i class="fa-solid fa-wand-magic-sparkles"></i> Custom Kits</a></li>
-                        <li><a href="#crafts">Crafts</a></li>
+                        <li><a href="#custom-kit" class="highlight"><i class="fa-solid fa-wand-magic-sparkles"></i> Custom Kits</a></li>
                         <li><a href="#about">About</a></li>
                     </ul>
                 </nav>
@@ -53,7 +53,7 @@
                 <!-- Search Input -->
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search gear, jerseys...">
+                    <input type="text" id="searchInput" placeholder="Search gear, jerseys...">
                 </div>
 
                 <!-- Shopping Cart -->
@@ -89,597 +89,819 @@
         </div>
         <ul class="mobile-nav-links">
             <li><a href="#home">Home</a></li>
+            <li><a href="#sports">Sports Lines</a></li>
             <li><a href="#products">Products</a></li>
-            <li><a href="#custom-kits">Custom Kits</a></li>
-            <li><a href="#crafts">Crafts & Apparel</a></li>
+            <li><a href="#custom-kit">Custom Kits</a></li>
             <li><a href="#about">About Us</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
     </div>
 
-<section class="category-section">
-    <div class="section-header">
-        <div>
-            <span class="sub-heading">• EXPLORE GEAR</span>
-            <h2 class="section-title">SHOP BY SPORT</h2>
-        </div>
-        <span class="category-badge">05 CATEGORIES</span>
-    </div>
-
-    <div class="sports-grid">
-        <!-- Rugby -->
-        <div class="sport-card">
-            <img src="https://e0.365dm.com/25/09/1600x900/skysports-damian-williamse_7018622.jpg?20250913090815" alt="Rugby" class="card-bg">
-            <div class="card-overlay"></div>
-            <div class="card-top">
-                <span class="icon-badge"><i class="fa-solid fa-rugby-ball"></i></span>
-                <span class="card-num">01</span>
+    <!-- SHOP BY SPORT SECTION -->
+    <section id="sports" class="category-section">
+        <div class="section-header">
+            <div>
+                <span class="sub-heading">• EXPLORE GEAR</span>
+                <h2 class="section-title">SHOP BY SPORT</h2>
             </div>
-            <div class="card-bottom">
-                <span class="card-sub">PERFORMANCE</span>
-                <div class="card-title-row">
-                    <h3>RUGBY</h3>
-                    <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+            <span class="category-badge">05 CATEGORIES</span>
+        </div>
+
+        <!-- Dynamic/Fallback Sports Grid -->
+        <div id="sports-grid" class="sports-grid">
+            <!-- Default Static Fallback Data (If Backend is Offline) -->
+            <div class="sport-card">
+                <img src="https://e0.365dm.com/25/09/1600x900/skysports-damian-williamse_7018622.jpg?20250913090815" alt="Rugby" class="card-bg">
+                <div class="card-overlay"></div>
+                <div class="card-top">
+                    <span class="icon-badge"><i class="fa-solid fa-rugby-ball"></i></span>
+                    <span class="card-num">01</span>
+                </div>
+                <div class="card-bottom">
+                    <span class="card-sub">PERFORMANCE</span>
+                    <div class="card-title-row">
+                        <h3>RUGBY</h3>
+                        <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sport-card active">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHK-ROtTQ-OLmPI6303YuXGYI9g2mwKOb4pX9YytwYOHZhmSSNOawrmKr-&s=10" alt="Cricket" class="card-bg">
+                <div class="card-overlay"></div>
+                <div class="card-top">
+                    <span class="icon-badge"><i class="fa-solid fa-cricket-bat-ball"></i></span>
+                    <span class="card-num">02</span>
+                </div>
+                <div class="card-bottom">
+                    <span class="card-sub">CUSTOM WHITES & COLORS</span>
+                    <div class="card-title-row">
+                        <h3>CRICKET</h3>
+                        <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sport-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT89DNUgKDDs8kEAPwDo95f7Rb9HU2ujevHBomync19YuVUEtjynkb0C0A&s=10" alt="Basketball" class="card-bg">
+                <div class="card-overlay"></div>
+                <div class="card-top">
+                    <span class="icon-badge"><i class="fa-solid fa-basketball"></i></span>
+                    <span class="card-num">03</span>
+                </div>
+                <div class="card-bottom">
+                    <span class="card-sub">MESH SINGLETS</span>
+                    <div class="card-title-row">
+                        <h3>BASKETBALL</h3>
+                        <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sport-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyzbRZnKg0JiBh5tlEPpzh2MSror_yL5hpWTCw4jvRFEYY2LgkpBhwgsoJ&s=10" alt="Football" class="card-bg">
+                <div class="card-overlay"></div>
+                <div class="card-top">
+                    <span class="icon-badge"><i class="fa-solid fa-futbol"></i></span>
+                    <span class="card-num">04</span>
+                </div>
+                <div class="card-bottom">
+                    <span class="card-sub">MATCHWEAR & KITS</span>
+                    <div class="card-title-row">
+                        <h3>FOOTBALL</h3>
+                        <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sport-card">
+                <img src="https://cdn.britannica.com/76/187976-050-D8DA2DA7/Floyd-Mayweather-Jr-ducks-Philippines-Manny-Pacquiao-May-2-2015.jpg" alt="Boxing" class="card-bg">
+                <div class="card-overlay"></div>
+                <div class="card-top">
+                    <span class="icon-badge"><i class="fa-solid fa-mitten"></i></span>
+                    <span class="card-num">05</span>
+                </div>
+                <div class="card-bottom">
+                    <span class="card-sub">COMBAT & GLOVES</span>
+                    <div class="card-title-row">
+                        <h3>BOXING</h3>
+                        <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Cricket -->
-        <div class="sport-card active">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHK-ROtTQ-OLmPI6303YuXGYI9g2mwKOb4pX9YytwYOHZhmSSNOawrmKr-&s=10" alt="Cricket" class="card-bg">
-            <div class="card-overlay"></div>
-            <div class="card-top">
-                <span class="icon-badge"><i class="fa-solid fa-cricket-bat-ball"></i></span>
-                <span class="card-num">02</span>
+    <!-- SHOP BY PRODUCT SECTION -->
+    <section id="products" class="category-section">
+        <div class="section-header">
+            <div>
+                <span class="sub-heading">• BROWSE PRODUCTS</span>
+                <h2 class="section-title">SHOP BY PRODUCT</h2>
             </div>
-            <div class="card-bottom">
-                <span class="card-sub">CUSTOM WHITES & COLORS</span>
-                <div class="card-title-row">
-                    <h3>CRICKET</h3>
-                    <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button id="resetStoreFilterBtn" style="display:none; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;"><i class="fa-solid fa-rotate-left"></i> Show All</button>
+                <span class="category-badge" id="productCountBadge">14 CATEGORIES</span>
+            </div>
+        </div>
+
+        <!-- Dynamic/Fallback Products Grid -->
+        <div id="products-grid" class="products-grid">
+            <!-- Default Static Fallback Data (If Backend is Offline) -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://pbs.twimg.com/media/CE8IUiWUIAAJ19O.png" alt="Rugby Jersey" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-shirt"></i>
+                    <span>Rugby Jersey</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLHCTDy17kt2w3PVmhliPAIbHW8iBpGJGfGcNFq5mtGQ&s=10" alt="Rugby Shorts" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-socks"></i>
+                    <span>Rugby Shorts</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOG-x6Cm7EP_mCm88pbt31WO7nmfWzQ2Qx_pLSbiGep_szcGpT3QHQlpvs&s=10" alt="Stockings" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-socks"></i>
+                    <span>Stockings</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE5zapeWMbE5i7c79J5lR2imd7tCwtXiIE5DUBBjA8_fjL58TOUeskra0&s=10" alt="Cricket Jerseys" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-shirt"></i>
+                    <span>Cricket Jerseys</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://swishbasketball.co.uk/cdn/shop/files/TW-SL-SUBLI-LEOPARDS.jpg?v=1711022335" alt="Basketball Kits" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-vest"></i>
+                    <span>Basketball Kits</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVi0lR-kEaP5gckU5zgAVp6PSR0HGAjPSdantYAVlJTg&s=10" alt="Football Kit" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-shirt"></i>
+                    <span>Football Kit</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0xTFZpTzC4LUv4RwDK46LZD9r-4YlAbbagUzVOMTJySJ2mZBkDee7Uro&s=10" alt="Cufflinks" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-gem"></i>
+                    <span>Cufflinks</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://suitandtie.lk/cdn/shop/files/Pin17.jpg?v=1772007223&width=533" alt="Tie Pins" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>Tie Pins</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxESm1OJvYWW45B4wckb58StAA_ai3PhQuCB2sE_PYig&s" alt="Lapel Pins" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-award"></i>
+                    <span>Lapel Pins</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmODD3xPosu5xQYAzsDsXr3E00L69LEzgRnUyeHUIqYQ&s=10" alt="Bags" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Bags</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://www.sportszone.lk/images/products/product_579/larges/36.jpg" alt="Track Kits" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-person-running"></i>
+                    <span>Track Kits</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRirJ7XoMfB0oE800gy3fKDHOicnpi1wHok4gitozL7_Q&s=10" alt="Caps" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-hat-cowboy"></i>
+                    <span>Caps</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAIW3DuyV1a4EAptC150mgnS1rW01265o2HG9hPKCZHA&s=10" alt="Bottles" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-bottle-water"></i>
+                    <span>Bottles</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYTL7jN0OclgIluzovwciBK7zs7DGkIvdGw0fkWnLP3w&s=10" alt="Key Tags" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Key Tags</span>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Basketball -->
-        <div class="sport-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT89DNUgKDDs8kEAPwDo95f7Rb9HU2ujevHBomync19YuVUEtjynkb0C0A&s=10" alt="Basketball" class="card-bg">
-            <div class="card-overlay"></div>
-            <div class="card-top">
-                <span class="icon-badge"><i class="fa-solid fa-basketball"></i></span>
-                <span class="card-num">03</span>
-            </div>
-            <div class="card-bottom">
-                <span class="card-sub">MESH SINGLETS</span>
-                <div class="card-title-row">
-                    <h3>BASKETBALL</h3>
-                    <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+    <!-- CUSTOM KIT SECTION -->
+    <section id="custom-kit" class="custom-kit-section">
+        <div class="custom-kit-card">
+            <div class="glow-circle glow-crimson"></div>
+            <div class="glow-circle glow-yellow"></div>
+
+            <div class="custom-kit-grid">
+                <div class="custom-kit-content">
+                    <div class="engine-badge">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> 3D Customizer Engine
+                    </div>
+
+                    <h2 class="custom-kit-title">
+                        Build Your Dream Kit.<br />
+                        <span class="gradient-text">We Manufacture Reality.</span>
+                    </h2>
+
+                    <p class="custom-kit-desc">
+                        From school first XV rugby scrums to national cricket leagues and corporate clubs. Fully sublimated, moisture-wicking fabrics with personalized names, numbers, sponsors &amp; logos.
+                    </p>
+
+                    <div class="kit-steps-grid">
+                        <div class="step-card">
+                            <span class="step-num">01</span>
+                            <p class="step-title">Choose Gear</p>
+                            <p class="step-sub">Jerseys, shorts & kits</p>
+                        </div>
+                        <div class="step-card">
+                            <span class="step-num">02</span>
+                            <p class="step-title">Upload Logos</p>
+                            <p class="step-sub">Names & sponsors</p>
+                        </div>
+                        <div class="step-card">
+                            <span class="step-num">03</span>
+                            <p class="step-title">Approve 3D</p>
+                            <p class="step-sub">Realistic digital proof</p>
+                        </div>
+                        <div class="step-card">
+                            <span class="step-num">04</span>
+                            <p class="step-title">Fast Delivery</p>
+                            <p class="step-sub">Manufactured & shipped</p>
+                        </div>
+                    </div>
+
+                    <div class="kit-actions">
+                        <a href="https://wa.me/94777588738?text=I%20want%20to%20start%20a%20Custom%20Kit%20Order%20with%20ILT%20Retail." target="_blank" class="cta-btn">
+                            <i class="fa-solid fa-palette"></i> Start Custom Kit Order
+                        </a>
+                        <a href="#products" class="secondary-btn">
+                            <i class="fa-solid fa-boxes-stacked"></i> Explore Live Catalog
+                        </a>
+                    </div>
+                </div>
+
+                <div class="custom-kit-preview">
+                    <div class="preview-card">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN9P1u9pRdk3CzzaWNna5divPTliM3binrB2QPsozmwSm8qv5-xIVuRvqEIcBYyW87VCcCD9bqqRnY7Z5uwXggK0S2NxquuS0AfGyTqhm5gS8C4MW6TMLxtk4p_iRHHL64mNyyLqqZhBreU2un_9ysq8hjR6p8khcN-BwOholqGP3PfLPrY-nEgpMvJnepEeH3MXAlfw5pTYGf6PZ6jleSx6D-VJDO-fZnRAeYhcuHwcC6Lfz62033sQ" alt="3D Kit Mockup Preview" class="preview-img">
+                        <div class="preview-overlay"></div>
+                        
+                        <div class="top-badge">
+                            <span class="pulse-dot"></span> UltraDry Mesh 240GSM
+                        </div>
+
+                        <div class="bottom-badge">
+                            <p class="preview-title">Pro Sublimated Match Jersey</p>
+                            <p class="preview-sub">Bulk order pricing on request</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
+<!-- FEATURED TEAM PRODUCTS SECTION -->
+<section id="products-section" class="max-w-[1400px] mx-auto px-4 space-y-6">
 
-        <!-- Football -->
-        <div class="sport-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyzbRZnKg0JiBh5tlEPpzh2MSror_yL5hpWTCw4jvRFEYY2LgkpBhwgsoJ&s=10" alt="Football" class="card-bg">
-            <div class="card-overlay"></div>
-            <div class="card-top">
-                <span class="icon-badge"><i class="fa-solid fa-futbol"></i></span>
-                <span class="card-num">04</span>
-            </div>
-            <div class="card-bottom">
-                <span class="card-sub">MATCHWEAR & KITS</span>
-                <div class="card-title-row">
-                    <h3>FOOTBALL</h3>
-                    <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Boxing -->
-        <div class="sport-card">
-            <img src="https://cdn.britannica.com/76/187976-050-D8DA2DA7/Floyd-Mayweather-Jr-ducks-Philippines-Manny-Pacquiao-May-2-2015.jpg" alt="Boxing" class="card-bg">
-            <div class="card-overlay"></div>
-            <div class="card-top">
-                <span class="icon-badge"><i class="fa-solid fa-mitten"></i></span>
-                <span class="card-num">05</span>
-            </div>
-            <div class="card-bottom">
-                <span class="card-sub">COMBAT & GLOVES</span>
-                <div class="card-title-row">
-                    <h3>BOXING</h3>
-                    <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- SHOP BY PRODUCT SECTION -->
-<section class="category-section">
-    <div class="section-header">
-        <div>
-            <span class="sub-heading">• BROWSE PRODUCTS</span>
-            <h2 class="section-title">SHOP BY PRODUCT</h2>
-        </div>
-        <span class="category-badge">14 CATEGORIES</span>
-    </div>
-
-    <div class="products-grid">
-
-        <!-- Rugby Jersey -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://pbs.twimg.com/media/CE8IUiWUIAAJ19O.png"
-                     alt="Rugby Jersey"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-shirt"></i>
-                <span>Rugby Jersey</span>
-            </div>
-        </div>
-
-        <!-- Rugby Shorts -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLHCTDy17kt2w3PVmhliPAIbHW8iBpGJGfGcNFq5mtGQ&s=10"
-                     alt="Rugby Shorts"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-socks"></i>
-                <span>Rugby Shorts</span>
-            </div>
-        </div>
-
-        <!-- Stockings -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOG-x6Cm7EP_mCm88pbt31WO7nmfWzQ2Qx_pLSbiGep_szcGpT3QHQlpvs&s=10"
-                     alt="Stockings"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-socks"></i>
-                <span>Stockings</span>
-            </div>
-        </div>
-
-        <!-- Cricket Jerseys -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE5zapeWMbE5i7c79J5lR2imd7tCwtXiIE5DUBBjA8_fjL58TOUeskra0&s=10"
-                     alt="Cricket Jerseys"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-shirt"></i>
-                <span>Cricket Jerseys</span>
-            </div>
-        </div>
-
-        <!-- Basketball Kits -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://swishbasketball.co.uk/cdn/shop/files/TW-SL-SUBLI-LEOPARDS.jpg?v=1711022335"
-                     alt="Basketball Kits"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-vest"></i>
-                <span>Basketball Kits</span>
-            </div>
-        </div>
-
-        <!-- Football Kit -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVi0lR-kEaP5gckU5zgAVp6PSR0HGAjPSdantYAVlJTg&s=10"
-                     alt="Football Kit"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-shirt"></i>
-                <span>Football Kit</span>
-            </div>
-        </div>
-
-        <!-- Cufflinks -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0xTFZpTzC4LUv4RwDK46LZD9r-4YlAbbagUzVOMTJySJ2mZBkDee7Uro&s=10"
-                     alt="Cufflinks"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-gem"></i>
-                <span>Cufflinks</span>
-            </div>
-        </div>
-
-        <!-- Tie Pins -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://suitandtie.lk/cdn/shop/files/Pin17.jpg?v=1772007223&width=533"
-                     alt="Tie Pins"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-user-tie"></i>
-                <span>Tie Pins</span>
-            </div>
-        </div>
-
-        <!-- Lapel Pins -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxESm1OJvYWW45B4wckb58StAA_ai3PhQuCB2sE_PYig&s"
-                     alt="Lapel Pins"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-award"></i>
-                <span>Lapel Pins</span>
-            </div>
-        </div>
-
-        <!-- Bags -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmODD3xPosu5xQYAzsDsXr3E00L69LEzgRnUyeHUIqYQ&s=10"
-                     alt="Bags"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <span>Bags</span>
-            </div>
-        </div>
-
-        <!-- Track Kits -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://www.sportszone.lk/images/products/product_579/larges/36.jpg"
-                     alt="Track Kits"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-person-running"></i>
-                <span>Track Kits</span>
-            </div>
-        </div>
-
-        <!-- Caps -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRirJ7XoMfB0oE800gy3fKDHOicnpi1wHok4gitozL7_Q&s=10"
-                     alt="Caps"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-hat-cowboy"></i>
-                <span>Caps</span>
-            </div>
-        </div>
-
-        <!-- Bottles -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAIW3DuyV1a4EAptC150mgnS1rW01265o2HG9hPKCZHA&s=10"
-                     alt="Bottles"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-bottle-water"></i>
-                <span>Bottles</span>
-            </div>
-        </div>
-
-        <!-- Key Tags -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYTL7jN0OclgIluzovwciBK7zs7DGkIvdGw0fkWnLP3w&s=10"
-                     alt="Key Tags"
-                     loading="lazy">
-            </div>
-            <div class="product-info">
-                <i class="fa-solid fa-key"></i>
-                <span>Key Tags</span>
-            </div>
-        </div>
-
-    </div>
-</section>
-<!-- ==========================================================
-     CUSTOM KIT / 3D CUSTOMIZER SECTION
-   ========================================================== -->
-<section id="custom-kit" class="custom-kit-section">
-  <div class="custom-kit-card">
-    <!-- Glowing background effects -->
-    <div class="glow-circle glow-crimson"></div>
-    <div class="glow-circle glow-yellow"></div>
-
-    <div class="custom-kit-grid">
-      <!-- Left Content -->
-      <div class="custom-kit-content">
-        <div class="engine-badge">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> 3D Customizer Engine
-        </div>
-
-        <h2 class="custom-kit-title">
-          Build Your Dream Kit.<br />
-          <span class="gradient-text">We Manufacture Reality.</span>
-        </h2>
-
-        <p class="custom-kit-desc">
-          From school first XV rugby scrums to national cricket leagues and corporate clubs. Fully sublimated, moisture-wicking fabrics with personalized names, numbers, sponsors &amp; logos.
-        </p>
-
-        <!-- 4 Simple Steps -->
-        <div class="kit-steps-grid">
-          <div class="step-card">
-            <span class="step-num">01</span>
-            <p class="step-title">Choose Gear</p>
-            <p class="step-sub">Jerseys, shorts & kits</p>
-          </div>
-          <div class="step-card">
-            <span class="step-num">02</span>
-            <p class="step-title">Upload Logos</p>
-            <p class="step-sub">Names & sponsors</p>
-          </div>
-          <div class="step-card">
-            <span class="step-num">03</span>
-            <p class="step-title">Approve 3D</p>
-            <p class="step-sub">Realistic digital proof</p>
-          </div>
-          <div class="step-card">
-            <span class="step-num">04</span>
-            <p class="step-title">Fast Delivery</p>
-            <p class="step-sub">Manufactured & shipped</p>
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="kit-actions">
-          <a href="https://wa.me/94777588738?text=I%20want%20to%20start%20a%20Custom%20Kit%20Order%20with%20ILT%20Retail." target="_blank" class="cta-btn">
-            <i class="fa-solid fa-palette"></i> Start Custom Kit Order
-          </a>
-          <a href="#products" class="secondary-btn">
-            <i class="fa-solid fa-boxes-stacked"></i> Explore Live Catalog
-          </a>
-        </div>
-      </div>
-
-      <!-- Right 3D Mockup Image Preview -->
-      <div class="custom-kit-preview">
-        <div class="preview-card">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN9P1u9pRdk3CzzaWNna5divPTliM3binrB2QPsozmwSm8qv5-xIVuRvqEIcBYyW87VCcCD9bqqRnY7Z5uwXggK0S2NxquuS0AfGyTqhm5gS8C4MW6TMLxtk4p_iRHHL64mNyyLqqZhBreU2un_9ysq8hjR6p8khcN-BwOholqGP3PfLPrY-nEgpMvJnepEeH3MXAlfw5pTYGf6PZ6jleSx6D-VJDO-fZnRAeYhcuHwcC6Lfz62033sQ" alt="3D Kit Mockup Preview" class="preview-img">
-          <div class="preview-overlay"></div>
-          
-          <div class="top-badge">
-            <span class="pulse-dot"></span> UltraDry Mesh 240GSM
-          </div>
-
-          <div class="bottom-badge">
-            <p class="preview-title">Pro Sublimated Match Jersey</p>
-            <p class="preview-sub">Bulk order pricing on request</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section>
-
-<!-- ==========================================================
-     ABOUT / FAST TRACK ORDERING SECTION
-   ========================================================== -->
-<section id="about" class="about-section">
-  <!-- Section Header -->
-  <div class="about-header">
-    <span class="sub-tag">Fast Track Ordering</span>
-    <h2 class="about-title">From Concept to Match Day</h2>
-    <p class="about-desc">How we deliver championship-quality gear across Sri Lanka in 5 seamless steps.</p>
-  </div>
-
-  <!-- 5 Steps Process Grid -->
-  <div class="steps-container">
-    <div class="process-step-card">
-      <span class="step-badge">STEP 01</span>
-      <h4 class="step-card-title">Concept & Design</h4>
-      <p class="step-card-desc">Share your idea, team colors, and logos with our expert design team.</p>
-    </div>
-
-    <div class="process-step-card">
-      <span class="step-badge">STEP 02</span>
-      <h4 class="step-card-title">3D Proofing</h4>
-      <p class="step-card-desc">Approve realistic 3D digital mockups before sending to production.</p>
-    </div>
-
-    <div class="process-step-card">
-      <span class="step-badge">STEP 03</span>
-      <h4 class="step-card-title">Sublimation</h4>
-      <p class="step-card-desc">High-precision printing & anti-fade colorfast fabric sublimation.</p>
-    </div>
-
-    <div class="process-step-card">
-      <span class="step-badge">STEP 04</span>
-      <h4 class="step-card-title">Tailoring</h4>
-      <p class="step-card-desc">Precision laser cutting and heavy-duty athletic performance stitching.</p>
-    </div>
-
-    <div class="process-step-card">
-      <span class="step-badge">STEP 05</span>
-      <h4 class="step-card-title">Match Day Delivery</h4>
-      <p class="step-card-desc">Fast islandwide dispatch straight to your school, club, or doorstep.</p>
-    </div>
-  </div>
-
-  <!-- Bottom Highlights Bar -->
-  <div class="about-highlights-bar">
-    <div class="highlight-item">
-      <i class="fa-solid fa-truck-fast highlight-icon icon-yellow"></i>
-      <div class="highlight-text">
-        <h5>Islandwide Delivery</h5>
-        <p>All 25 districts in Sri Lanka</p>
-      </div>
-    </div>
-
-    <div class="highlight-item">
-      <i class="fa-solid fa-award highlight-icon icon-crimson"></i>
-      <div class="highlight-text">
-        <h5>Guaranteed Match Fabric</h5>
-        <p>Anti-fade colorfast sublimation</p>
-      </div>
-    </div>
-
-    <div class="highlight-item">
-      <i class="fa-solid fa-users-gear highlight-icon icon-green"></i>
-      <div class="highlight-text">
-        <h5>150+ Teams Outfitted</h5>
-        <p>Schools, clubs &amp; corporations</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==========================================================
-     FOOTER SECTION
-   ========================================================== -->
-<footer class="site-footer">
-  <div class="footer-container">
-    
-    <!-- Top Main Grid -->
-    <div class="footer-grid">
-      
-      <!-- Column 1: Brand Info & Socials -->
-      <div class="footer-brand-col">
-        <div class="footer-logo">
-          <img src="images/logo.png" alt="ILT Retail Logo" class="footer-logo-img" />
-          <span class="footer-logo-text">ILT<span class="dot">.</span>RETAIL</span>
-        </div>
-        <p class="footer-brand-desc">
-          Sri Lanka's trusted manufacturer of premium athletic gear, custom sublimated kits, and customized corporate tournament accessories.
-        </p>
-        
-        <!-- Social Media Links -->
-        <div class="footer-socials">
-          <a href="https://www.facebook.com/people/ILT-Retail/61579319930885/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-btn">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a href="https://www.instagram.com/iltretail.srilanka/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-btn">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://lk.linkedin.com/company/ilt-retail-pvt-limited" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-btn">
-            <i class="fa-brands fa-linkedin-in"></i>
-          </a>
-          <a href="https://tiktok.com/@iltretail" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-btn">
-            <i class="fa-brands fa-tiktok"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Column 2: Sports Lines -->
-      <div class="footer-links-col">
-        <h4 class="footer-heading">Sports Lines</h4>
-        <ul class="footer-links">
-          <li><a href="#sports">Rugby Kits &amp; Balls</a></li>
-          <li><a href="#sports">Cricket Whites &amp; Coloured</a></li>
-          <li><a href="#sports">Basketball Mesh Sets</a></li>
-          <li><a href="#sports">Football Strips &amp; Boots</a></li>
-          <li><a href="#sports">Boxing &amp; Fightwear</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 3: Accessories -->
-      <div class="footer-links-col">
-        <h4 class="footer-heading">Accessories</h4>
-        <ul class="footer-links">
-          <li><a href="#products">Custom Cufflinks</a></li>
-          <li><a href="#products">Enamel Lapel Pins</a></li>
-          <li><a href="#products">Club Tie Pins</a></li>
-          <li><a href="#products">Embroidered Caps</a></li>
-          <li><a href="#products">Insulated Steel Bottles</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 4: Contact & Hotline -->
-      <div class="footer-contact-col">
-        <h4 class="footer-heading">Direct Hotline</h4>
-        <p class="contact-subhead">Head Office / Production Unit</p>
-        <p class="contact-info">Colombo, Western Province, Sri Lanka</p>
-        <p class="contact-mono">
-          <i class="fa-solid fa-phone icon-crimson"></i> +94 777 588 738
-        </p>
-        <p class="contact-mono">
-          <i class="fa-solid fa-envelope icon-crimson"></i>
-          <a href="mailto:orders@iltretail.lk" class="email-link">orders@iltretail.lk</a>
-        </p>
-      </div>
-
-    </div>
-
-    <!-- Bottom Bar (Copyright & Credits) -->
-    <div class="footer-bottom">
-      <p class="copyright-text">© 2026 ILT RETAIL (Pvt) Ltd. All Rights Reserved. Engineered for Performance.</p>
-      
-      <div class="developer-credits">
-        <span>Created by — 
-          <a href="https://www.linkedin.com/in/vinuda-sasmitha-48a211333/" target="_blank" rel="noopener noreferrer" class="dev-link" title="Contact Developer: vinudasasmitha29@gmail.com">
-            Vinuda Edirisooriya
-          </a>
+  <!-- SECTION HEADER & ALIGNED SEARCH -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse"></span>
+        <span class="text-[11px] font-mono uppercase tracking-[0.2em] font-extrabold text-red-500">
+          Live Inventory & Custom Orders
         </span>
-        <a href="admin.html" aria-label="Admin Dashboard" title="Admin Panel" class="admin-dot"></a>
       </div>
+      <h2 class="font-black text-2xl sm:text-3xl uppercase tracking-tight text-white">
+        Featured Team Products
+      </h2>
     </div>
 
+    <!-- CLEAN ALIGNED SEARCH BAR & RESET -->
+    <div class="flex items-center gap-2">
+      <div class="search-input-box">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input
+          type="text"
+          id="catalogSearch"
+          placeholder="Search jerseys, gear, boots..."
+          autocomplete="off"
+        />
+        <button id="clearSearchBtn" class="hidden">✕</button>
+      </div>
+
+      <button id="resetCatalogFiltersBtn" class="hidden">
+        <span class="material-symbols-outlined text-sm">restart_alt</span>
+        <span>Reset</span>
+      </button>
+    </div>
   </div>
-</footer>
-    <!-- 4. Theme & Interactive Scripts -->
-    <script>
-        // Theme Switcher Logic
-        const toggleBtn = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-        const htmlElement = document.documentElement;
 
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(savedTheme);
+  <!-- MODERN FILTER CONTROLS BAR -->
+  <div class="filter-controls-bar">
+    <div class="filter-item">
+      <label>Sport Filter</label>
+      <select id="catalogSportSelect">
+        <option value="all">All Sports</option>
+        <option value="none">General / Corporate Only</option>
+      </select>
+    </div>
 
-        toggleBtn.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);
+    <div class="filter-item">
+      <label>Item Category</label>
+      <select id="catalogCategorySelect">
+        <option value="all">All Product Types</option>
+      </select>
+    </div>
+
+    <div class="filter-status">
+      <div class="text-xs font-bold text-gray-400">
+        Showing <span id="productCount" class="text-red-500 font-black text-sm">0</span> Products
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="text-[11px] font-mono text-gray-400 uppercase">Live Fabric Inventory</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESPONSIVE PRODUCTS GRID CONTAINER -->
+  <div id="catalogProductsGrid">
+    <!-- Dynamic Products Cards Render Here -->
+  </div>
+
+</section>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-section">
+        <div class="about-header">
+            <span class="sub-tag">Fast Track Ordering</span>
+            <h2 class="about-title">From Concept to Match Day</h2>
+            <p class="about-desc">How we deliver championship-quality gear across Sri Lanka in 5 seamless steps.</p>
+        </div>
+
+        <div class="steps-container">
+            <div class="process-step-card">
+                <span class="step-badge">STEP 01</span>
+                <h4 class="step-card-title">Concept & Design</h4>
+                <p class="step-card-desc">Share your idea, team colors, and logos with our expert design team.</p>
+            </div>
+
+            <div class="process-step-card">
+                <span class="step-badge">STEP 02</span>
+                <h4 class="step-card-title">3D Proofing</h4>
+                <p class="step-card-desc">Approve realistic 3D digital mockups before sending to production.</p>
+            </div>
+
+            <div class="process-step-card">
+                <span class="step-badge">STEP 03</span>
+                <h4 class="step-card-title">Sublimation</h4>
+                <p class="step-card-desc">High-precision printing & anti-fade colorfast fabric sublimation.</p>
+            </div>
+
+            <div class="process-step-card">
+                <span class="step-badge">STEP 04</span>
+                <h4 class="step-card-title">Tailoring</h4>
+                <p class="step-card-desc">Precision laser cutting and heavy-duty athletic performance stitching.</p>
+            </div>
+
+            <div class="process-step-card">
+                <span class="step-badge">STEP 05</span>
+                <h4 class="step-card-title">Match Day Delivery</h4>
+                <p class="step-card-desc">Fast islandwide dispatch straight to your school, club, or doorstep.</p>
+            </div>
+        </div>
+
+        <div class="about-highlights-bar">
+            <div class="highlight-item">
+                <i class="fa-solid fa-truck-fast highlight-icon icon-yellow"></i>
+                <div class="highlight-text">
+                    <h5>Islandwide Delivery</h5>
+                    <p>All 25 districts in Sri Lanka</p>
+                </div>
+            </div>
+
+            <div class="highlight-item">
+                <i class="fa-solid fa-award highlight-icon icon-crimson"></i>
+                <div class="highlight-text">
+                    <h5>Guaranteed Match Fabric</h5>
+                    <p>Anti-fade colorfast sublimation</p>
+                </div>
+            </div>
+
+            <div class="highlight-item">
+                <i class="fa-solid fa-users-gear highlight-icon icon-green"></i>
+                <div class="highlight-text">
+                    <h5>150+ Teams Outfitted</h5>
+                    <p>Schools, clubs &amp; corporations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand-col">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="ILT Retail Logo" class="footer-logo-img" onerror="this.src='https://via.placeholder.com/30'"/>
+                        <span class="footer-logo-text">ILT<span class="dot">.</span>RETAIL</span>
+                    </div>
+                    <p class="footer-brand-desc">
+                        Sri Lanka's trusted manufacturer of premium athletic gear, custom sublimated kits, and customized corporate tournament accessories.
+                    </p>
+                    
+                    <div class="footer-socials">
+                        <a href="https://www.facebook.com/people/ILT-Retail/61579319930885/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/iltretail.srilanka/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://lk.linkedin.com/company/ilt-retail-pvt-limited" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://tiktok.com/@iltretail" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-btn"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4 class="footer-heading">Sports Lines</h4>
+                    <ul class="footer-links">
+                        <li><a href="#sports">Rugby Kits &amp; Balls</a></li>
+                        <li><a href="#sports">Cricket Whites &amp; Coloured</a></li>
+                        <li><a href="#sports">Basketball Mesh Sets</a></li>
+                        <li><a href="#sports">Football Strips &amp; Boots</a></li>
+                        <li><a href="#sports">Boxing &amp; Fightwear</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4 class="footer-heading">Accessories</h4>
+                    <ul class="footer-links">
+                        <li><a href="#products">Custom Cufflinks</a></li>
+                        <li><a href="#products">Enamel Lapel Pins</a></li>
+                        <li><a href="#products">Club Tie Pins</a></li>
+                        <li><a href="#products">Embroidered Caps</a></li>
+                        <li><a href="#products">Insulated Steel Bottles</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact-col">
+                    <h4 class="footer-heading">Direct Hotline</h4>
+                    <p class="contact-subhead">Head Office / Production Unit</p>
+                    <p class="contact-info">Colombo, Western Province, Sri Lanka</p>
+                    <p class="contact-mono"><i class="fa-solid fa-phone icon-crimson"></i> +94 777 588 738</p>
+                    <p class="contact-mono"><i class="fa-solid fa-envelope icon-crimson"></i> <a href="mailto:orders@iltretail.lk" class="email-link">orders@iltretail.lk</a></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright-text">© 2026 ILT RETAIL (Pvt) Ltd. All Rights Reserved. Engineered for Performance.</p>
+                <div class="developer-credits">
+                    <span>Created by — 
+                        <a href="https://www.linkedin.com/in/vinuda-sasmitha-48a211333/" target="_blank" rel="noopener noreferrer" class="dev-link" title="Contact Developer: vinudasasmitha29@gmail.com">Vinuda Edirisooriya</a>
+                    </span>
+                    <a href="admin.html" aria-label="Admin Dashboard" title="Admin Panel" class="admin-dot" style="display:inline-block; width:8px; height:8px; background:var(--crimson, #dc2626); border-radius:50%; margin-left:8px;"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FontAwesome & Google Material Symbols Icons (Required for Grid Icons) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<script>
+  // Backend Express Server URLs
+  const API_BASE = 'http://localhost:3000/api';
+  const SERVER_BASE = 'http://localhost:3000';
+  const WHATSAPP_NUM = '94777588738'; // ඔබේ WhatsApp අංකය
+
+  // Global State Stores
+  let allSports = [];
+  let allCategories = [];
+  let allProducts = [];
+  let favorites = {};
+
+  // DOM Elements Selection
+  const sportsGrid = document.getElementById('sports-grid');
+  const productsGrid = document.getElementById('products-grid');
+  const catalogProductsGrid = document.getElementById('catalogProductsGrid');
+  
+  const catalogSportSelect = document.getElementById('catalogSportSelect');
+  const catalogCategorySelect = document.getElementById('catalogCategorySelect');
+  const catalogSearch = document.getElementById('catalogSearch');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const resetCatalogFiltersBtn = document.getElementById('resetCatalogFiltersBtn');
+  const productCount = document.getElementById('productCount');
+  const productCountBadge = document.getElementById('productCountBadge');
+
+  // Page Load Event
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchSports();
+    fetchCategories();
+    fetchProducts();
+  });
+
+  /* ==========================================================
+     1. FETCH & RENDER SPORTS (SHOP BY SPORT SECTION)
+  ========================================================== */
+  async function fetchSports() {
+    try {
+      const res = await fetch(`${API_BASE}/sports`);
+      if (!res.ok) throw new Error('Sports fetch failed');
+      allSports = await res.json();
+
+      // Dropdown update for Products section
+      catalogSportSelect.innerHTML = '<option value="all">All Sports</option><option value="none">General / Corporate Only</option>';
+      
+      if (allSports.length > 0) {
+        sportsGrid.innerHTML = '';
+        allSports.forEach((sport, index) => {
+          // Dropdown filter Option
+          catalogSportSelect.innerHTML += `<option value="${sport.id}">${sport.name}</option>`;
+
+          // Image URL handling
+          const imgSrc = sport.image_url 
+            ? (sport.image_url.startsWith('http') ? sport.image_url : `${SERVER_BASE}${sport.image_url}`)
+            : 'https://via.placeholder.com/400x300';
+
+          const numStr = String(index + 1).padStart(2, '0');
+
+          // Add to Shop by Sport Grid
+          sportsGrid.innerHTML += `
+            <div class="sport-card" onclick="filterBySport('${sport.id}')" style="cursor: pointer;">
+                <img src="${imgSrc}" alt="${sport.name}" class="card-bg">
+                <div class="card-overlay"></div>
+                <div class="card-top">
+                    <span class="icon-badge"><i class="fa-solid fa-trophy"></i></span>
+                    <span class="card-num">${numStr}</span>
+                </div>
+                <div class="card-bottom">
+                    <span class="card-sub">${sport.tagline || 'PERFORMANCE'}</span>
+                    <div class="card-title-row">
+                        <h3>${sport.name.toUpperCase()}</h3>
+                        <span class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+          `;
         });
+      }
+    } catch (err) {
+      console.warn('Backend sports offline, using static display', err);
+    }
+  }
 
-        function setTheme(theme) {
-            htmlElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
+  /* ==========================================================
+     2. FETCH & RENDER CATEGORIES (SHOP BY PRODUCT SECTION)
+  ========================================================== */
+  async function fetchCategories() {
+    try {
+      const res = await fetch(`${API_BASE}/categories`);
+      if (!res.ok) throw new Error('Categories fetch failed');
+      allCategories = await res.json();
 
-            if (theme === 'dark') {
-                themeIcon.className = 'fa-solid fa-sun text-amber-400';
-            } else {
-                themeIcon.className = 'fa-solid fa-moon text-slate-700';
-            }
-        }
+      // Dropdown update
+      catalogCategorySelect.innerHTML = '<option value="all">All Product Types</option>';
+      
+      if (allCategories.length > 0) {
+        productsGrid.innerHTML = '';
+        if(productCountBadge) productCountBadge.innerText = `${allCategories.length} CATEGORIES`;
 
-        // Mobile Drawer Logic
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const closeDrawerBtn = document.getElementById('close-drawer');
-        const mobileDrawer = document.getElementById('mobile-drawer');
-        const overlay = document.getElementById('overlay');
+        allCategories.forEach((cat) => {
+          // Dropdown Option
+          catalogCategorySelect.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
 
-        function toggleDrawer(open) {
-            if (open) {
-                mobileDrawer.classList.add('open');
-                overlay.classList.add('active');
-            } else {
-                mobileDrawer.classList.remove('open');
-                overlay.classList.remove('active');
-            }
-        }
+          // Add to Shop by Product Grid
+          productsGrid.innerHTML += `
+            <div class="product-card" onclick="filterByCategory('${cat.id}')" style="cursor: pointer;">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/200?text=${encodeURIComponent(cat.name)}" alt="${cat.name}" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <i class="fa-solid fa-shirt"></i>
+                    <span>${cat.name}</span>
+                </div>
+            </div>
+          `;
+        });
+      }
+    } catch (err) {
+      console.warn('Backend categories offline', err);
+    }
+  }
 
-        mobileMenuBtn.addEventListener('click', () => toggleDrawer(true));
-        closeDrawerBtn.addEventListener('click', () => toggleDrawer(false));
-        overlay.addEventListener('click', () => toggleDrawer(false));
-    </script>
+  /* ==========================================================
+     3. FETCH & RENDER FEATURED TEAM PRODUCTS (FINAL LIVE CATALOG)
+  ========================================================== */
+  async function fetchProducts() {
+    try {
+      const res = await fetch(`${API_BASE}/products`);
+      if (!res.ok) throw new Error('Products fetch failed');
+      allProducts = await res.json();
+      renderCatalogProducts();
+    } catch (err) {
+      console.error('Error fetching live catalog:', err);
+      catalogProductsGrid.innerHTML = `
+        <div style="text-align: center; color: #ef4444; padding: 40px; font-weight: bold;">
+            Failed to connect to backend server.
+        </div>`;
+    }
+  }
+
+ function renderCatalogProducts() {
+    const query = catalogSearch.value.toLowerCase().trim();
+    const selectedSport = catalogSportSelect.value;
+    const selectedCategory = catalogCategorySelect.value;
+
+    const filtered = allProducts.filter(product => {
+      const matchesSearch = !query || product.product_title.toLowerCase().includes(query);
+      
+      let matchesSport = true;
+      if (selectedSport === 'none') {
+        matchesSport = !product.sport_id;
+      } else if (selectedSport !== 'all') {
+        matchesSport = String(product.sport_id) === String(selectedSport);
+      }
+
+      let matchesCategory = true;
+      if (selectedCategory !== 'all') {
+        matchesCategory = String(product.category_id) === String(selectedCategory);
+      }
+
+      return matchesSearch && matchesSport && matchesCategory;
+    });
+
+    // Update Counter
+    if (productCount) productCount.innerText = filtered.length;
+
+    // Show/Hide Reset Buttons
+    const isFiltered = query !== '' || selectedSport !== 'all' || selectedCategory !== 'all';
+    if(resetCatalogFiltersBtn) resetCatalogFiltersBtn.classList.toggle('hidden', !isFiltered);
+    if(clearSearchBtn) clearSearchBtn.classList.toggle('hidden', query === '');
+
+    // No Products Found Screen
+    if (filtered.length === 0) {
+      catalogProductsGrid.innerHTML = `
+        <div class="text-center py-16 rounded-2xl border border-gray-800 p-8 bg-[#0e1927]">
+          <span class="material-symbols-outlined text-5xl text-gray-500 mb-2">search_off</span>
+          <h3 class="font-display font-black text-xl uppercase text-white">No items found</h3>
+          <p class="text-xs text-gray-400 mt-1 mb-4">Try selecting another sport or category filter.</p>
+          <button onclick="resetCatalogFilters()" class="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase">
+            Show All Items
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    // Grid output
+    let html = `<div class="products-grid-wrapper">`;
+
+    filtered.forEach(product => {
+      const isLiked = !!favorites[product.id];
+      const imgSrc = product.image_url 
+        ? (product.image_url.startsWith('http') ? product.image_url : `${SERVER_BASE}${product.image_url}`)
+        : 'https://via.placeholder.com/400x500/0e1927/ffffff?text=No+Image';
+
+      const sportLabel = product.sport_name || 'General';
+      const categoryLabel = product.category_name || 'CUSTOM GEAR';
+
+      html += `
+        <div class="product-card">
+          <!-- CARD IMAGE BOX (FIXED RATIO) -->
+          <div class="card-img-box">
+            <img src="${imgSrc}" alt="${product.product_title}" loading="lazy" />
+            <div class="card-img-overlay"></div>
+            
+            <div class="absolute top-2.5 left-2.5 z-10">
+              <span class="text-[9px] font-black px-2 py-0.5 rounded uppercase bg-red-600 text-white shadow">
+                ${sportLabel}
+              </span>
+            </div>
+
+            <button onclick="toggleFavorite(${product.id})" class="fav-btn">
+              <span class="material-symbols-outlined text-sm">${isLiked ? 'favorite' : 'favorite_border'}</span>
+            </button>
+          </div>
+
+          <!-- CARD BODY DETAILS -->
+          <div class="card-body-content">
+            <div>
+              <span class="text-[10px] font-extrabold uppercase text-red-500 block mb-1 tracking-wider">
+                ${categoryLabel}
+              </span>
+              <h3 class="card-title">${product.product_title}</h3>
+            </div>
+
+            <!-- ACTION BUTTON -->
+            <a href="https://wa.me/${WHATSAPP_NUM}?text=Hi%20ILT%20Retail,%20I%20am%20interested%20in:%20${encodeURIComponent(product.product_title)}" target="_blank" class="whatsapp-action-btn">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+              <span>Inquire Now</span>
+            </a>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+    catalogProductsGrid.innerHTML = html;
+  }
+  /* ==========================================================
+     4. CLICK FILTER HANDLERS & NAVIGATION
+  ========================================================== */
+  // Sport Card එකක් Click කළ විට Auto-filter වී Products Section එකට Scroll වේ
+  function filterBySport(sportId) {
+    catalogSportSelect.value = sportId;
+    renderCatalogProducts();
+    document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Category Card එකක් Click කළ විට Auto-filter වී Products Section එකට Scroll වේ
+  function filterByCategory(catId) {
+    catalogCategorySelect.value = catId;
+    renderCatalogProducts();
+    document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function resetCatalogFilters() {
+    catalogSearch.value = '';
+    catalogSportSelect.value = 'all';
+    catalogCategorySelect.value = 'all';
+    renderCatalogProducts();
+  }
+
+  function toggleCatalogFavorite(id) {
+    favorites[id] = !favorites[id];
+    renderCatalogProducts();
+  }
+
+  // Event Listeners for Filters
+  if(catalogSearch) catalogSearch.addEventListener('input', renderCatalogProducts);
+  if(catalogSportSelect) catalogSportSelect.addEventListener('change', renderCatalogProducts);
+  if(catalogCategorySelect) catalogCategorySelect.addEventListener('change', renderCatalogProducts);
+  if(resetCatalogFiltersBtn) resetCatalogFiltersBtn.addEventListener('click', resetCatalogFilters);
+  if(clearSearchBtn) clearSearchBtn.addEventListener('click', () => {
+    catalogSearch.value = '';
+    renderCatalogProducts();
+  });
+</script>
 </body>
 </html>

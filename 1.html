@@ -46,141 +46,637 @@
     },
   };
 </script>
-
 <style>
-  :root {
-    --bg: #0b0e18;
-    --bg-alt: #070911;
-    --card: #111424;
-    --card-hover: #161b30;
-    --border: #1c223a;
-    --text: #f1f5f9;
-    --text-dim: #94a3b8;
-    --overlay-strong: rgba(6, 8, 14, 0.85);
-    --overlay-soft: rgba(6, 8, 14, 0.1);
-    --img-tint: rgba(8, 10, 20, 0.35);
+    
+
+```css
+/* =========================================================
+   ILT RETAIL — MODERN 2026 DESIGN SYSTEM
+========================================================= */
+
+:root {
+  --bg: #080a12;
+  --bg-alt: #0d101b;
+  --surface: #111522;
+  --surface-2: #151a29;
+  --surface-hover: #1a2032;
+  --border: rgba(255,255,255,.08);
+
+  --text: #f8fafc;
+  --text-soft: #cbd5e1;
+  --text-dim: #94a3b8;
+
+  --red: #e61c24;
+  --red-dark: #bd1017;
+  --yellow: #fdd400;
+
+  --grid: rgba(255,255,255,.035);
+
+  --shadow-sm: 0 8px 25px rgba(0,0,0,.18);
+  --shadow-md: 0 18px 45px rgba(0,0,0,.28);
+  --shadow-red: 0 18px 45px rgba(230,28,36,.22);
+
+  --radius: 18px;
+}
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+
+html:not(.dark) {
+  --bg: #f4f6fa;
+  --bg-alt: #ffffff;
+
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-hover: #f1f4f8;
+
+  --border: rgba(15,23,42,.09);
+
+  --text: #0f172a;
+  --text-soft: #334155;
+  --text-dim: #64748b;
+
+  --grid: rgba(15,23,42,.035);
+
+  --shadow-sm: 0 8px 25px rgba(15,23,42,.06);
+  --shadow-md: 0 18px 45px rgba(15,23,42,.10);
+  --shadow-red: 0 18px 45px rgba(230,28,36,.16);
+}
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+
+  font-family: 'Plus Jakarta Sans', sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(230,28,36,.055),
+      transparent 30%
+    ),
+    var(--bg);
+
+  color: var(--text);
+
+  transition:
+    background-color .3s ease,
+    color .3s ease;
+}
+
+button,
+a,
+input,
+select {
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+.font-display {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #30374c;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--red);
+}
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.bg-grid {
+  background-size: 38px 38px;
+
+  background-image:
+    linear-gradient(
+      to right,
+      var(--grid) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--grid) 1px,
+      transparent 1px
+    );
+}
+
+/* =========================================================
+   SURFACES
+========================================================= */
+
+.surface {
+  background-color: var(--surface);
+  border-color: var(--border);
+}
+
+.surface-hover {
+  transition:
+    background-color .25s ease,
+    border-color .25s ease,
+    transform .25s ease;
+}
+
+.surface-hover:hover {
+  background-color: var(--surface-hover);
+}
+
+.border-line {
+  border-color: var(--border);
+}
+
+.text-dim {
+  color: var(--text-dim);
+}
+
+.text-soft {
+  color: var(--text-soft);
+}
+
+/* =========================================================
+   THEME TRANSITIONS
+========================================================= */
+
+.theme-fade {
+  transition:
+    background-color .3s ease,
+    color .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+main {
+  width: 100%;
+}
+
+main > section,
+footer > div {
+  width: 100%;
+  max-width: 1680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================
+   ANNOUNCEMENT BAR
+========================================================= */
+
+.announcement-bar {
+  min-height: 38px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+header > div {
+  max-width: 1680px;
+  margin: auto;
+}
+
+/* =========================================================
+   ICON BUTTON
+========================================================= */
+
+.kbd-icon-btn {
+  transition:
+    transform .2s ease,
+    background-color .2s ease,
+    color .2s ease,
+    border-color .2s ease;
+}
+
+.kbd-icon-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(230,28,36,.45);
+}
+
+/* =========================================================
+   RED GLOW
+========================================================= */
+
+.glow-red {
+  box-shadow:
+    0 0 25px rgba(230,28,36,.18);
+}
+
+.glow-red:hover {
+  box-shadow:
+    0 12px 35px rgba(230,28,36,.28);
+}
+
+/* =========================================================
+   SPORT TILE
+========================================================= */
+
+.tile {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: 18px;
+  border: 1px solid var(--border);
+
+  background: var(--surface);
+
+  cursor: pointer;
+
+  isolation: isolate;
+
+  transition:
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    box-shadow .35s ease,
+    border-color .35s ease;
+}
+
+.tile:hover {
+  transform: translateY(-7px);
+  border-color: rgba(230,28,36,.65);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.20),
+    0 12px 30px rgba(230,28,36,.10);
+
+  z-index: 5;
+}
+
+.tile img {
+  transition:
+    transform .65s cubic-bezier(.2,.8,.2,1),
+    filter .4s ease,
+    opacity .3s ease;
+
+  filter: saturate(1.05);
+}
+
+.tile:hover img {
+  transform: scale(1.09);
+  filter: saturate(1.15);
+}
+
+.tile-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.78) 0%,
+      rgba(0,0,0,.22) 52%,
+      rgba(0,0,0,.04) 100%
+    );
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.product-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  transition:
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    box-shadow .35s ease,
+    border-color .35s ease;
+}
+
+.product-tile:hover {
+  transform: translateY(-7px);
+
+  border-color: rgba(230,28,36,.6);
+
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.20),
+    0 10px 30px rgba(230,28,36,.10);
+}
+
+.product-tile .imgwrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.product-tile .imgwrap::after {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.25),
+      transparent 55%
+    );
+
+  pointer-events: none;
+}
+
+.product-tile img {
+  transition:
+    transform .6s cubic-bezier(.2,.8,.2,1);
+}
+
+.product-tile:hover img {
+  transform: scale(1.07);
+}
+
+/* =========================================================
+   PRODUCT CATEGORY TILE
+========================================================= */
+
+.product-category-tile {
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+
+.product-category-tile:hover {
+  transform: translateY(-5px);
+}
+
+/* =========================================================
+   FORM CONTROLS
+========================================================= */
+
+select,
+input,
+textarea {
+  color: var(--text);
+  background-color: var(--surface);
+  border-color: var(--border);
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+  outline: none !important;
+
+  border-color: var(--red) !important;
+
+  box-shadow:
+    0 0 0 3px rgba(230,28,36,.10) !important;
+}
+
+select option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* =========================================================
+   LIGHT MODE — FIX WHITE TEXT / DARK OVERLAYS
+========================================================= */
+
+html:not(.dark) .tile-overlay {
+  background:
+    linear-gradient(
+      to top,
+      rgba(10,14,25,.72) 0%,
+      rgba(10,14,25,.16) 60%,
+      transparent 100%
+    );
+}
+
+html:not(.dark) .text-brand-yellow {
+  color: #a85d00 !important;
+}
+
+html:not(.dark) .bg-brand-yellow\/15 {
+  background-color: rgba(168,93,0,.09) !important;
+}
+
+html:not(.dark) .border-brand-yellow\/30 {
+  border-color: rgba(168,93,0,.22) !important;
+}
+
+html:not(.dark) .hover\:text-brand-yellow:hover {
+  color: #a85d00 !important;
+}
+
+/* =========================================================
+   LIGHT MODE — CATEGORY / PRODUCT BADGES
+========================================================= */
+
+html:not(.dark) .product-tile .bg-brand-yellow {
+  background-color: #f5c400 !important;
+  color: #111827 !important;
+}
+
+/* =========================================================
+   MARQUEE
+========================================================= */
+
+.marquee-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
   }
-  html:not(.dark) {
-    --bg: #f6f7fb;
-    --bg-alt: #ffffff;
-    --card: #ffffff;
-    --card-hover: #fbfbfe;
-    --border: #e3e6ef;
-    --text: #0f1320;
-    --text-dim: #5b6272;
-    --overlay-strong: rgba(20, 22, 34, 0.55);
-    --overlay-soft: rgba(20, 22, 34, 0.03);
-    --img-tint: rgba(30, 32, 48, 0.12);
+
+  to {
+    transform: translateX(-50%);
   }
-  * { box-sizing: border-box; }
+}
+
+/* =========================================================
+   ADMIN DOT
+========================================================= */
+
+.admin-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 999px;
+
+  background: var(--text-dim);
+
+  opacity: .3;
+
+  display: inline-block;
+
+  transition:
+    opacity .2s ease,
+    background-color .2s ease,
+    transform .2s ease;
+}
+
+.admin-dot:hover {
+  opacity: 1;
+  background: var(--red);
+  transform: scale(1.5);
+}
+
+/* =========================================================
+   SECTION SPACING
+========================================================= */
+
+section {
+  position: relative;
+}
+
+section + section {
+  margin-top: 8px;
+}
+
+/* =========================================================
+   CUSTOM KIT
+========================================================= */
+
+#custom-kit > div {
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+  background: var(--bg-alt);
+}
+
+footer a {
+  transition:
+    color .2s ease,
+    opacity .2s ease;
+}
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+  background: var(--red);
+  color: white;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
   body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: var(--bg);
-    color: var(--text);
-    margin: 0;
-    transition: background-color .25s ease, color .25s ease;
-    overflow-x: hidden;
-  }
-  .font-display { font-family: 'Montserrat', sans-serif; }
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: #e61c24; }
-
-  .bg-grid {
-    background-size: 34px 34px;
-    background-image:
-      linear-gradient(to right, var(--overlay-soft) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--overlay-soft) 1px, transparent 1px);
-  }
-  .glow-red {
-    box-shadow: 0 0 22px -4px rgba(230, 28, 36, .45);
-  }
-  .surface { background-color: var(--card); border-color: var(--border); }
-  .surface-hover:hover { background-color: var(--card-hover); }
-  .text-dim { color: var(--text-dim); }
-  .border-line { border-color: var(--border); }
-
-  /* Small sport tiles with a big, decisive hover lift */
-  .tile {
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    cursor: pointer;
-    transition: transform .4s cubic-bezier(.2,.9,.3,1), box-shadow .4s ease, border-color .4s ease;
-  }
-  .tile:hover {
-    transform: translateY(-16px) scale(1.06);
-    border-color: #e61c24;
-    box-shadow: 0 34px 60px -20px rgba(230,28,36,.65);
-    z-index: 5;
-  }
-  .tile img {
-    transition: transform .7s ease, filter .5s ease;
-    filter: saturate(1.05);
-  }
-  .tile:hover img { transform: scale(1.22); }
-  .tile-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, var(--overlay-strong) 0%, transparent 62%);
-    pointer-events: none;
+    font-size: 14px;
   }
 
-  .product-tile {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    transition: transform .4s cubic-bezier(.2,.9,.3,1), box-shadow .4s ease, border-color .4s ease;
+  header > div {
+    height: 68px !important;
   }
-  .product-tile .imgwrap { position: relative; overflow: hidden; border-radius: 16px 16px 0 0; }
-  .product-tile .imgwrap::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(to top, var(--img-tint) 0%, transparent 55%);
-  }
-  .product-tile img { transition: transform .55s ease; }
-  .product-tile:hover img { transform: scale(1.1); }
+
+  .tile:hover,
   .product-tile:hover {
-    transform: translateY(-10px) scale(1.03);
-    border-color: #e61c24;
-    box-shadow: 0 26px 50px -20px rgba(230,28,36,.55);
-    z-index: 5;
+    transform: translateY(-4px);
   }
 
-  /* Light mode: brand-yellow text is unreadable on white surfaces (it was
-     designed for dark backgrounds only). Swap it for a darker amber
-     whenever the site is in light mode, everywhere it's used as text,
-     a tinted background, or a border. */
-  html:not(.dark) .text-brand-yellow {
-    color: #a15c00 !important;
-  }
-  html:not(.dark) .bg-brand-yellow\/15 {
-    background-color: rgba(161, 92, 0, 0.12) !important;
-  }
-  html:not(.dark) .border-brand-yellow\/30 {
-    border-color: rgba(161, 92, 0, 0.35) !important;
-  }
-  html:not(.dark) .hover\:text-brand-yellow:hover {
-    color: #a15c00 !important;
+  .tile:hover img {
+    transform: scale(1.05);
   }
 
-  .marquee-track { animation: marquee 30s linear infinite; }
-
-  input::placeholder { color: var(--text-dim); opacity: .8; }
-
-  .kbd-icon-btn { transition: transform .2s ease, background-color .2s ease, color .2s ease; }
-  .kbd-icon-btn:hover { transform: translateY(-2px); }
-
-  .theme-fade { transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
-
-  /* hidden admin trigger: a quiet dot, on purpose small */
-  .admin-dot {
-    width: 7px; height: 7px; border-radius: 999px;
-    background: var(--text-dim); opacity: .35;
-    display: inline-block; transition: opacity .2s ease, background-color .2s ease, transform .2s ease;
+  .product-tile:hover img {
+    transform: scale(1.04);
   }
-  .admin-dot:hover { opacity: 1; background: #e61c24; transform: scale(1.6); }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 768px) and (max-width: 1199px) {
+
+  main > section {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+}
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1600px) {
+
+  main > section {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+
+  header > div {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
 </style>
 </head>
 <body class="selection:bg-brand-crimson selection:text-white">

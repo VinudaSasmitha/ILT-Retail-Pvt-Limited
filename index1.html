@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILT Retail (Pvt) Limited - Premium Apparel & Gear</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="styless.css">
+</head>
+<body>
+
+    <!-- Overlay for Mobile Drawer -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- 2. Main Glassmorphism Header -->
+    <header class="header">
+        <div class="header-container">
+            
+            <!-- Left: Brand Logo -->
+            <a href="index.html" class="brand">
+                <div class="logo-box">
+                    <img src="logo.png" alt="ILT Retail Logo" onerror="this.src='https://via.placeholder.com/40'">
+                </div>
+                <div class="brand-text">
+                    <div class="brand-title">ILT<span>.</span>RETAIL</div>
+                    <div class="brand-sub">Crafts & Clothing</div>
+                </div>
+            </a>
+
+            <!-- Center: Navigation Links -->
+            <div class="center-nav">
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#home" class="active">Home</a></li>
+                        <li><a href="#sports">Sports</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#custom-kit" class="highlight"><i class="fa-solid fa-wand-magic-sparkles"></i> Custom Kits</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Right: Search, Cart, Theme Toggle, CTA -->
+            <div class="right-actions">
+                <!-- Search Input -->
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Search gear, jerseys...">
+                </div>
+
+                <!-- Shopping Cart -->
+                <button class="icon-btn" aria-label="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-badge">2</span>
+                </button>
+
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+                    <i id="theme-icon" class="fa-solid fa-sun"></i>
+                </button>
+
+                <!-- CTA Button -->
+                <a href="https://wa.me/94777588738" class="cta-btn">
+                    <i class="fa-brands fa-whatsapp"></i> Get Quote
+                </a>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobile-menu-btn" class="icon-btn mobile-toggle" aria-label="Open Menu">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+
+        </div>
+    </header>
+    </body>
+    <script src="script.js"></script>
+    </html>
