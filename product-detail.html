@@ -10,6 +10,22 @@
         :root {
             --primary-accent: #e11d48;
             --primary-hover: #be123c;
+            --page-bg: #0b0f17;
+            --card-bg: rgba(18, 24, 38, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --main-text: #ffffff;
+            --secondary-text: #94a3b8;
+            --description-text: #cbd5e1;
+
+            --image-bg: #05070c;
+            --thumb-bg: #111827;
+            --related-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            background-color: var(--page-bg);
+            color: var(--main-text);
             --bg-card: rgba(18, 24, 38, 0.75);
             --border-card: rgba(255, 255, 255, 0.08);
             --text-title: #ffffff;
@@ -176,7 +192,9 @@
             backdrop-filter: blur(12px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             position: sticky;
+            top: 100px;
             top: 20px;
+
         }
 
         .related-title {
@@ -313,9 +331,159 @@
                 height: 120px;
             }
         }
+
+
+        /* ==========================================
+        LIGHT / DARK MODE
+        ========================================== */
+
+        /* Dark Mode - Your existing design */
+        html[data-theme="dark"] {
+            --page-bg: #0b0f17;
+            --card-bg: rgba(18, 24, 38, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --main-text: #ffffff;
+            --secondary-text: #94a3b8;
+            --description-text: #cbd5e1;
+            --image-bg: #05070c;
+            --thumb-bg: #111827;
+            --related-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Light Mode */
+        html[data-theme="light"] {
+            --page-bg: #f1f5f9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(15, 23, 42, 0.10);
+            --main-text: #0f172a;
+            --secondary-text: #64748b;
+            --description-text: #334155;
+            --image-bg: #f8fafc;
+            --thumb-bg: #e2e8f0;
+            --related-bg: rgba(15, 23, 42, 0.04);
+        }
+
+        /* Apply theme colors */
+        body {
+            background-color: var(--page-bg);
+            color: var(--main-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .detail-grid,
+        .related-sidebar {
+            background: var(--card-bg);
+            border-color: var(--card-border);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .detail-title,
+        .related-title,
+        .related-info h4 {
+            color: var(--main-text);
+        }
+
+        .detail-desc {
+            color: var(--description-text);
+            background: var(--related-bg);
+        }
+
+        .back-btn {
+            color: var(--secondary-text);
+        }
+
+        .back-btn:hover {
+            color: var(--main-text);
+        }
+
+        .main-img-container {
+            background: var(--image-bg);
+            border-color: var(--card-border);
+        }
+
+        .thumb-img {
+            background: var(--thumb-bg);
+        }
+
+        .related-card {
+            background: var(--related-bg);
+            border-color: var(--card-border);
+        }
+
+        .no-related {
+            color: var(--secondary-text);
+        }
+
+        /* ==========================================
+        THEME TOGGLE BUTTON
+        ========================================== */
+
+        .theme-toggle {
+            position: fixed;
+            top: 22px;
+            right: 24px;
+            z-index: 9999;
+
+            width: 48px;
+            height: 48px;
+
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+
+            background: var(--card-bg);
+            color: var(--main-text);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            backdrop-filter: blur(12px);
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.20);
+
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease,
+                transform 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(15deg) scale(1.08);
+            border-color: var(--primary-accent);
+        }
+
+        .theme-toggle i {
+            font-size: 1.1rem;
+        }
+
+        /* Light mode toggle appearance */
+        html[data-theme="light"] .theme-toggle {
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.12);
+        }
+
+        /* Mobile */
+        @media (max-width: 680px) {
+            .theme-toggle {
+                width: 42px;
+                height: 42px;
+                top: 15px;
+                right: 15px;
+            }
+        }
     </style>
 </head>
 <body>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">
+        <i id="theme-icon" class="fa-solid fa-sun"></i>
+    </button>
+=======
+    </style>
+</head>
+<body>
+>>>>>>> 9e69e4b8d3942f72953a29a0476f2e3676643fae
 
     <div class="page-wrapper">
         <!-- Main Product Left Container -->
