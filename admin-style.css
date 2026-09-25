@@ -277,3 +277,50 @@ select option {
     padding: 40px;
     color: var(--text-sub);
 }
+
+/* ==========================================
+   ADMIN DASHBOARD MOBILE RESPONSIVENESS
+   ========================================== */
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .steps-wrapper, .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: span 1;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .prod-item img {
+        height: 110px;
+    }
+
+    .filter-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-controls, .filter-controls select {
+        width: 100%;
+        flex-direction: column;
+    }
+
+}
