@@ -28,7 +28,7 @@
             padding: 20px;
         }
 
-        /* ==================== LOGIN OVERLAY STYLES ==================== */
+        /* LOGIN OVERLAY STYLES */
         #loginOverlay {
             position: fixed;
             top: 0;
@@ -61,9 +61,7 @@
             color: var(--crimson);
         }
 
-        .login-card h2 span {
-            color: white;
-        }
+        .login-card h2 span { color: white; }
 
         .login-card p {
             color: var(--text-dim);
@@ -71,9 +69,7 @@
             margin: 0 0 25px 0;
         }
 
-        .login-card .form-group {
-            text-align: left;
-        }
+        .login-card .form-group { text-align: left; }
 
         .login-error-msg {
             color: #ef4444;
@@ -82,7 +78,6 @@
             display: none;
             font-weight: 600;
         }
-        /* ============================================================= */
 
         .header {
             display: flex;
@@ -128,9 +123,7 @@
             font-size: 18px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+        .form-group { margin-bottom: 15px; }
 
         .form-group label {
             display: block;
@@ -140,7 +133,7 @@
             font-weight: 600;
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 10px;
             background: #05101d;
@@ -149,6 +142,7 @@
             color: white;
             box-sizing: border-box;
             outline: none;
+            font-family: inherit;
         }
 
         .form-group input[type="file"] {
@@ -156,7 +150,7 @@
             cursor: pointer;
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             border-color: var(--crimson);
         }
 
@@ -168,6 +162,25 @@
             margin-top: 8px;
             border: 1px dashed var(--border);
             display: none;
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .preview-thumb {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .preview-thumb.main-thumb {
+            border: 2px solid var(--crimson);
         }
 
         .btn {
@@ -218,6 +231,7 @@
         }
 
         .prod-title { font-size: 13px; font-weight: 700; margin: 8px 0 4px 0; }
+        .prod-desc { font-size: 11px; color: var(--text-dim); margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .prod-badge { font-size: 10px; color: var(--crimson); font-weight: 600; }
 
         .delete-btn {
@@ -333,9 +347,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Product Image (Choose File) *</label>
-                    <input type="file" id="prodImageFile" accept="image/*" required>
-                    <img id="prodPreview" class="img-preview" alt="Product Preview">
+                    <label>Product Description (Optional)</label>
+                    <textarea id="prodDesc" rows="4" placeholder="Enter full product description..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Images (Main Photo + Sub Photos) *</label>
+                    <input type="file" id="prodImageFile" accept="image/*" multiple required>
+                    <small style="color: var(--text-dim); display: block; margin-top: 4px;">* පළමුවෙන් Select වන Photo එක Main Photo එක වේ.</small>
+                    <div id="prodPreviewContainer" class="preview-container"></div>
                 </div>
 
                 <button type="submit" class="btn">+ Save Product Item</button>
@@ -351,7 +371,7 @@
     </div>
 
     <script>
-        // ==================== ADMIN LOGIN AUTHENTICATION ====================
+        // ADMIN LOGIN AUTHENTICATION
         const DEFAULT_USER = "@dmin";
         const DEFAULT_PASS = "VIP@ILT2024";
 
@@ -375,7 +395,6 @@
                 errorMsg.style.display = 'block';
             }
         });
-        // ====================================================================
 
         const API_URL = 'http://localhost:3000/api';
         const SERVER_URL = 'http://localhost:3000';
@@ -383,6 +402,7 @@
         const sportSelect = document.getElementById('prodSportSelect');
         const categorySelect = document.getElementById('prodCategorySelect');
         const prodNameInput = document.getElementById('prodName');
+        const prodDescInput = document.getElementById('prodDesc');
         const productsGrid = document.getElementById('productsGrid');
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -394,9 +414,19 @@
 
         function setupImagePreviews() {
             document.getElementById('prodImageFile').addEventListener('change', function(e) {
-                const preview = document.getElementById('prodPreview');
-                const file = e.target.files[0];
-                if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
+                const container = document.getElementById('prodPreviewContainer');
+                container.innerHTML = '';
+                const files = e.target.files;
+
+                if (files && files.length > 0) {
+                    Array.from(files).forEach((file, index) => {
+                        const img = document.createElement('img');
+                        img.src = URL.createObjectURL(file);
+                        img.className = index === 0 ? 'preview-thumb main-thumb' : 'preview-thumb';
+                        img.title = index === 0 ? 'Main Photo' : `Sub Photo ${index}`;
+                        container.appendChild(img);
+                    });
+                }
             });
 
             document.getElementById('sportImageFile').addEventListener('change', function(e) {
@@ -473,7 +503,9 @@
         async function loadCategories() {
             try {
                 const res = await fetch(`${API_URL}/categories`);
-                const categories = await res.json();
+                const resData = await res.json();
+                const categories = Array.isArray(resData) ? resData : (resData.data || []);
+                
                 categorySelect.innerHTML = '<option value="">-- Choose Category --</option>';
                 categories.forEach(c => {
                     categorySelect.innerHTML += `<option value="${c.id}" data-name="${c.name}">${c.name}</option>`;
@@ -502,14 +534,19 @@
             const formData = new FormData();
             formData.append('name', prodNameInput.value);
             
+            // Description stjoere nei de backend
+            formData.append('description', prodDescInput.value.trim());
+
             if (sportSelect.value) {
                 formData.append('sport_id', sportSelect.value);
             }
             formData.append('category_id', categorySelect.value);
 
             const fileInput = document.getElementById('prodImageFile');
-            if (fileInput.files[0]) {
-                formData.append('image', fileInput.files[0]);
+            if (fileInput.files.length > 0) {
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    formData.append('images', fileInput.files[i]);
+                }
             }
 
             try {
@@ -521,7 +558,7 @@
                 if (res.ok) {
                     alert('🎉 Product Item Successfully Added!');
                     document.getElementById('addProductForm').reset();
-                    document.getElementById('prodPreview').style.display = 'none';
+                    document.getElementById('prodPreviewContainer').innerHTML = '';
                     loadProducts();
                 } else {
                     const errData = await res.json();
@@ -536,13 +573,15 @@
         async function loadProducts() {
             try {
                 const res = await fetch(`${API_URL}/products`);
+                if (!res.ok) return;
+                
                 const resData = await res.json();
                 const products = Array.isArray(resData) ? resData : (resData.data || []);
                 
                 productsGrid.innerHTML = '';
                 
-                if (products.length === 0) {
-                    productsGrid.innerHTML = '<p style="color: var(--text-dim); text-align: center; grid-column: 1/-1;">No products found.</p>';
+                if (!products || products.length === 0) {
+                    productsGrid.innerHTML = '<p style="color: var(--text-dim); text-align: center; grid-column: 1/-1;">No products found in inventory.</p>';
                     return;
                 }
 
@@ -550,17 +589,21 @@
                     const title = p.name || p.product_title || 'Product';
                     const imgPath = p.image_url || p.image || '';
                     const imgSrc = imgPath ? `${SERVER_URL}${imgPath}` : 'https://via.placeholder.com/150';
+                    const descText = p.description ? `<div class="prod-desc">${p.description}</div>` : '';
 
                     productsGrid.innerHTML += `
                         <div class="prod-item">
-                            <img src="${imgSrc}" alt="${title}">
+                            <img src="${imgSrc}" alt="${title}" onerror="this.src='https://via.placeholder.com/150'">
                             <div class="prod-badge">${p.sport_name || 'General Accessory'}</div>
                             <div class="prod-title">${title}</div>
+                            ${descText}
                             <button class="delete-btn" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i> Delete</button>
                         </div>
                     `;
                 });
-            } catch (err) { console.error('Error loading products', err); }
+            } catch (err) { 
+                console.error('Error loading products:', err); 
+            }
         }
 
         // Delete Product Handler

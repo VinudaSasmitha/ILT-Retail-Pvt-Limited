@@ -309,7 +309,7 @@ async function fetchItemCategories() {
     }
 }
 
-// ==========================================
+/// ==========================================
 // 7. FETCH & FILTER PRODUCTS
 // ==========================================
 async function fetchFeaturedProducts() {
@@ -345,26 +345,25 @@ async function fetchFeaturedProducts() {
         products.forEach(p => {
             const imgSrc = formatImageUrl(p.image_url);
             const title = p.product_title || p.name;
-            const waUrl = getWaLink(title);
 
             productsGrid.innerHTML += `
-    <div class="product-card">
-        <div class="product-img-wrapper">
-            <img src="${imgSrc}" alt="${title}">
-            <button class="wishlist-btn" title="Add to Wishlist">
-                <i class="fa-regular fa-heart"></i>
-            </button>
-        </div>
-        <div class="product-info">
-            <span class="product-category">${p.sport_name || 'CUSTOM GEAR'}</span>
-            <h3 class="product-title">${title}</h3>
-            <a href="${waUrl}" target="_blank" class="btn-inquire-red">
-                <i class="fa-brands fa-whatsapp"></i>
-                <span>INQUIRE NOW</span>
-            </a>
-        </div>
-    </div>
-`;
+                <div class="product-card" onclick="window.location.href='product-detail.html?id=${p.id}'" style="cursor: pointer;">
+                    <div class="product-img-wrapper">
+                        <img src="${imgSrc}" alt="${title}">
+                        <button class="wishlist-btn" title="Add to Wishlist" onclick="event.stopPropagation();">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${p.sport_name || 'CUSTOM GEAR'}</span>
+                        <h3 class="product-title">${title}</h3>
+                        <a href="product-detail.html?id=${p.id}" class="btn-inquire-red" onclick="event.stopPropagation();">
+                            <i class="fa-solid fa-eye"></i>
+                            <span>VIEW DETAILS</span>
+                        </a>
+                    </div>
+                </div>
+            `;
         });
     } catch (error) {
         console.error('Error loading products:', error);

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-accent: #e11d48;
+            --primary-hover: #be123c;
+            --bg-card: rgba(18, 24, 38, 0.75);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --text-title: #ffffff;
+            --text-sub: #94a3b8;
+        }
+
+        body {
+            background-color: #0b0f17;
+            color: var(--text-title);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Page Layout Grid (Laptop: Left 1fr, Right 380px) */
+        .page-wrapper {
+            max-width: 1380px;
+            margin: 40px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 36px;
+            align-items: start;
+        }
+
+        .main-product-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Image Gallery Styling */
+        .product-gallery { display: flex; flex-direction: column; gap: 16px; }
+        
+        .main-img-container {
+            width: 100%;
+            height: 440px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #05070c;
+            position: relative;
+            cursor: zoom-in;
+            border: 1px solid var(--border-card);
+        }
+
+        .main-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.1s ease-out;
+            transform-origin: center center;
+        }
+
+        .sub-images-row {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        .thumb-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            background: #111827;
+            transition: all 0.25s ease;
+        }
+
+        .thumb-img:hover {
+            border-color: rgba(225, 29, 72, 0.5);
+        }
+
+        .thumb-img.active {
+            border-color: var(--primary-accent);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+        }
+
+        /* Details Styling */
+        .product-details-content { display: flex; flex-direction: column; gap: 18px; }
+        .product-tag { 
+            display: inline-block;
+            color: var(--primary-accent); 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 0.85rem; 
+            letter-spacing: 1.5px;
+            background: rgba(225, 29, 72, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            width: fit-content;
+            border: 1px solid rgba(225, 29, 72, 0.2);
+        }
+
+        .detail-title { font-size: 2.2rem; margin: 0; color: var(--text-title); line-height: 1.25; font-weight: 800; }
+        
+        .detail-desc { 
+            color: #cbd5e1; 
+            line-height: 1.7; 
+            font-size: 1rem; 
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 3px solid var(--primary-accent);
+        }
+
+        /* WhatsApp Button */
+        .btn-whatsapp-order {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: #fff;
+            padding: 16px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
+        }
+        .btn-whatsapp-order:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 12px 25px rgba(37, 211, 102, 0.4);
+        }
+        
+        .back-btn { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            color: var(--text-sub); 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+        .back-btn:hover { color: var(--text-title); transform: translateX(-4px); }
+
+        /* ========================================== */
+        /* PREMIUM RELATED PRODUCTS SIDEBAR           */
+        /* ========================================== */
+        .related-sidebar {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: sticky;
+            top: 20px;
+        }
+
+        .related-title {
+            font-size: 1.2rem;
+            color: var(--text-title);
+            margin: 0 0 20px 0;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-card);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 700;
+        }
+
+        .related-title i {
+            color: var(--primary-accent);
+        }
+
+        .related-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-height: 650px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        /* Custom Scrollbar for Sidebar */
+        .related-list::-webkit-scrollbar { width: 5px; }
+        .related-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+
+        /* Highly Styled Related Card */
+        .related-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .related-card:hover {
+            border-color: var(--primary-accent);
+            background: rgba(225, 29, 72, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(225, 29, 72, 0.15);
+        }
+
+        /* Image Wrapper & Zoom */
+        .related-card img {
+            width: 95px;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: #0f172a;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .related-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .related-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-grow: 1;
+        }
+
+        .related-info h4 {
+            font-size: 1.05rem;
+            margin: 0;
+            color: var(--text-title);
+            font-weight: 700;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .related-info span {
+            font-size: 0.82rem;
+            color: var(--primary-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .no-related {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            font-style: italic;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        /* Responsive Layout Switch */
+        @media (max-width: 1024px) {
+            .page-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .related-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+                padding: 18px;
+            }
+            .main-img-container {
+                height: 320px;
+            }
+            .related-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                max-height: none;
+            }
+            .related-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 14px;
+            }
+            .related-card img {
+                width: 100%;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Main Product Left Container -->
+        <div class="main-product-container">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Catalog</a>
+
+            <div class="detail-grid">
+                <!-- Gallery Section -->
+                <div class="product-gallery">
+                    <div class="main-img-container" id="zoomBox">
+                        <img id="mainImage" src="https://via.placeholder.com/500" alt="Product Image">
+                    </div>
+
+                    <div class="sub-images-row" id="thumbnailRow"></div>
+                </div>
+
+                <!-- Details Section -->
+                <div class="product-details-content">
+                    <span class="product-tag" id="productCategory">Category</span>
+                    <h1 class="detail-title" id="productTitle">Loading...</h1>
+                    
+                    <!-- Admin Panel Description Display -->
+                    <div class="detail-desc" id="productDesc">Fetching product details...</div>
+
+                    <!-- WhatsApp Order Button -->
+                    <a href="#" id="whatsappBtn" target="_blank" class="btn-whatsapp-order">
+                        <i class="fa-brands fa-whatsapp fa-xl"></i>
+                        <span>Inquire via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Section (More Items from the Same Sport) -->
+        <div class="related-sidebar">
+            <h3 class="related-title">
+                <span>More Sport Items</span>
+                <i class="fa-solid fa-fire-flame-curved"></i>
+            </h3>
+            <div id="relatedProductsList" class="related-list">
+                <!-- Related products will load dynamically via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- External JavaScript File -->
+    <script src="product-detail.js"></script>
+</body>
+</html>
