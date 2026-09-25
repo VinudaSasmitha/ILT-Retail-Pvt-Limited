@@ -10,13 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const productId = urlParams.get('id');
 
     if (productId) {
-        loadProduct(productId, false); // මුලින්ම Page එක Load වන විට
+        loadProduct(productId, false); 
     } else {
         alert('No Product Selected!');
         window.location.href = 'index.html';
     }
 
-    // Browser Back / Forward Button එක ඔබන විටද dynamic ලෙස මාරු වීමට
+    // Browser Back / Forward Button 
     window.addEventListener('popstate', () => {
         const currentParams = new URLSearchParams(window.location.search);
         const currentId = currentParams.get('id');
@@ -24,17 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Dynamically Product එක Change කරන ප්‍රධාන Function එක (Page Reload වෙන්නේ නැත)
+// Dynamically Product 
 async function loadProduct(id, updateHistory = true) {
     if (updateHistory) {
-        // Browser URL එක පමණක් වෙනස් කරයි (Reload නොවී)
+        // Browser URL 
         history.pushState({ id }, '', `?id=${id}`);
     }
     
-    // Page එක උඩට Scroll කිරීම
+    
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Details Re-fetch කිරීම
+    // Details Re-fetch 
     await fetchProductDetails(id);
 }
 
@@ -103,7 +103,7 @@ async function fetchProductDetails(id) {
 
         const product = await response.json();
 
-        // Details Populate කිරීම
+        // Details Populate 
         const titleEl = document.getElementById('productTitle');
         const categoryEl = document.getElementById('productCategory');
         const descEl = document.getElementById('productDesc');
@@ -111,17 +111,17 @@ async function fetchProductDetails(id) {
         // Product Name
         if (titleEl) titleEl.innerText = product.product_title || product.name || 'Product Details';
         
-        // Sport Name සහ Category Name
+        // Sport Name and Category Name
         if (categoryEl) {
             const sportText = product.sport_name ? product.sport_name.toUpperCase() : 'GENERAL';
             const catText = product.category_name ? product.category_name.toUpperCase() : 'CUSTOM GEAR';
             categoryEl.innerText = `${sportText} • ${catText}`;
         }
 
-        // DATABASE එකෙන් එන DESCRIPTION එක හරියාකාරව පෙන්වීම
+        
         if (descEl) {
             if (product.description && product.description.trim() !== '') {
-                // Admin Panel එකේදී Enter ගසා කඩන ලද Line breaks (\n) HTML <br> බවට පත් කරයි
+               
                 descEl.innerHTML = product.description.replace(/\n/g, '<br>');
             } else {
                 descEl.innerText = 'High-quality custom sportswear tailored to perfection.';
@@ -136,7 +136,7 @@ async function fetchProductDetails(id) {
         setupGallery(images);
         setupWhatsAppButton(product);
 
-        // අදාළ Sport එකේම වෙනත් Products (Related Products) Load කිරීම
+        
         if (product.sport_id) {
             fetchRelatedProducts(product.sport_id, product.id);
         } else {
@@ -150,7 +150,6 @@ async function fetchProductDetails(id) {
     }
 }
 
-// Same Sport Related Products Fetch කිරීම
 async function fetchRelatedProducts(sportId, currentProductId) {
     const relatedContainer = document.getElementById('relatedProductsList');
     if (!relatedContainer) return;
@@ -160,7 +159,7 @@ async function fetchRelatedProducts(sportId, currentProductId) {
         const data = await res.json();
         const products = Array.isArray(data) ? data : (data.data || []);
 
-        // දැනට පෙන්වන Product එක ලිස්ට් එකෙන් ඉවත් කිරීම
+        
         const related = products.filter(p => parseInt(p.id) !== parseInt(currentProductId));
 
         if (related.length === 0) {
@@ -182,7 +181,7 @@ async function fetchRelatedProducts(sportId, currentProductId) {
                 </div>
             `;
 
-            // Dynamic Click Handler (Page Reload නොවී අලුත් Product එක load වේ)
+            // Dynamic Click Handler 
             item.addEventListener('click', () => {
                 loadProduct(p.id, true);
             });
@@ -245,7 +244,7 @@ function setupGallery(images) {
     }
 }
 
-// WhatsApp Link Setup (Price/LKR ඉවත් කර ඇත)
+// WhatsApp Link Setup (Price/LKR Remove)
 function setupWhatsAppButton(product) {
     const pageUrl = window.location.href;
     const productName = product.product_title || product.name || 'Product';
